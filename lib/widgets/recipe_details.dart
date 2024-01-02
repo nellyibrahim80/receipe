@@ -43,6 +43,7 @@ class RecipeDetails extends StatelessWidget {
                   5,
                       (index) => Icon(
                     Icons.star_rounded,
+                    size: 18,
                     color: Color(ConstColors.titleColors),
                   ))
             ],

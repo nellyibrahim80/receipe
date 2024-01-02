@@ -296,7 +296,7 @@ class _HomePageState extends State<HomePage> {
                 titleAlignment: ListTileTitleAlignment.top,
                 contentPadding: EdgeInsets.all(0 ),
                 leading: Container(
-                 // color: Colors.red,
+                  color: Colors.red,
                   child: Image.asset(
                   "assets/images/image0small.png",
                   width: 120, // Ensure that this value does not exceed maxWidth
