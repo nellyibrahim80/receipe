@@ -287,8 +287,13 @@ class _HomePageState extends State<HomePage> {
               HeaderTitle: "Recommended",
             ),
             Card(
-              child: ListTile(
+              color: Color(ConstColors.bgInput),
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
 
+              margin: EdgeInsets.all(0),
+              elevation: 0,
+              child: ListTile(
+contentPadding: EdgeInsets.all(0 ),
                 leading: Container(
                   color: Colors.red,
                   child: Image.asset(
