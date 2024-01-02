@@ -12,7 +12,7 @@ class SeeAllHeader extends StatelessWidget {
       children: [
         Flexible(
           child: Padding(
-            padding: const EdgeInsets.all(1.0),
+            padding: const EdgeInsets.all(10.0),
             child: Text(
                 HeaderTitle,
 
