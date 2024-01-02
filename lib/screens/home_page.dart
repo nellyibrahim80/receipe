@@ -273,7 +273,7 @@ class _HomePageState extends State<HomePage> {
                                 )
                               ],
                             ),
-                            RecipeDetails(RecipeIndex: 1,)
+                            RecipeDetails(RecipeIndex: 1,starsPadding: 6,)
                           ],
                         ),
                       ),
@@ -293,20 +293,26 @@ class _HomePageState extends State<HomePage> {
               margin: EdgeInsets.all(0),
               elevation: 0,
               child: ListTile(
-contentPadding: EdgeInsets.all(0 ),
+                titleAlignment: ListTileTitleAlignment.top,
+                contentPadding: EdgeInsets.all(0 ),
                 leading: Container(
-                  color: Colors.red,
+                 // color: Colors.red,
                   child: Image.asset(
                   "assets/images/image0small.png",
-                  width: 70, // Ensure that this value does not exceed maxWidth
+                  width: 120, // Ensure that this value does not exceed maxWidth
 
                   //fit: BoxFit.cover,
                                 ),
                 ),title: RecipeDetails(RecipeIndex: 1,),
-                  trailing: Icon(
-                Icons.favorite_border,
-                color: Color(ConstColors.textInput),
-              ),),
+                  trailing: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Icon(
+                                      Icons.favorite_border,
+                                      color: Color(ConstColors.textInput),
+                                    ),
+                    ],
+                  ),),
             )
           ],
         ),

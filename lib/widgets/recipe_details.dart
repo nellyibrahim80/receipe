@@ -4,12 +4,20 @@ import '../utilities/abstract_colors.dart';
 
 class RecipeDetails extends StatelessWidget {
   final int RecipeIndex;
-  const RecipeDetails({required this.RecipeIndex,super.key});
+   final double? starsPadding ;
+   RecipeDetails({required this.RecipeIndex,this.starsPadding,super.key});
 
   @override
   Widget build(BuildContext context) {
+    EdgeInsetsGeometry padding = EdgeInsets.only(
+      bottom: starsPadding ?? 0.0,
+      top: starsPadding ?? 0.0,
+    );
     return Column(
-      children: [       Row(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        Row(
+        mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Text(
             'Breakfast',
@@ -28,7 +36,7 @@ class RecipeDetails extends StatelessWidget {
           ],
         ),
         Padding(
-          padding: const EdgeInsets.only(bottom: 5,top:5.0),
+          padding: padding,
           child: Row(
             children: [
               ...List.generate(
