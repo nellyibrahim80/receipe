@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 import 'package:receipe/screens/login.dart';
 import 'package:receipe/services/shared_pref.dart';
 import 'package:receipe/utilities/abstract_colors.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'home_page.dart';
 
@@ -21,7 +23,9 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 void sharedPrefinit() async {
     await Future.delayed(Duration(seconds: 3));
-  if (SharedPrefClass.CheckLogging()) {
+
+    if(GetIt.I.get<SharedPreferences>().getBool("isLogged") ?? false){
+ // if (SharedPrefClass.CheckLogging()) { //with shared pref abstract class
     Navigator.pushReplacement(
         context, MaterialPageRoute(builder: (context) => HomePage(),));
   }

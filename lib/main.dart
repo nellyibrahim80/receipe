@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 import 'package:receipe/screens/splash_screen.dart';
 import 'package:receipe/services/shared_pref.dart';
 import 'package:receipe/utilities/abstract_colors.dart';
@@ -7,9 +8,13 @@ import 'package:shared_preferences/shared_preferences.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   try {
-    SharedPrefClass.pref = await SharedPreferences.getInstance();
+    //SharedPrefClass.pref = await SharedPreferences.getInstance();
+    var pref=await SharedPreferences.getInstance();
+    GetIt.I.registerSingleton<SharedPreferences>(pref);
+
     if (SharedPrefClass.pref != null) {
       print("***************Pref Created Successfully*************");
+      //SharedPrefClass.pref.clear();
     }
   } catch (e) {
     print("***************Pref Error*************");

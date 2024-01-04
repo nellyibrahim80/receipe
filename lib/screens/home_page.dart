@@ -3,6 +3,8 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get_it/get_it.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 //import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import '../services/shared_pref.dart';
 import '../utilities/abstract_colors.dart';
@@ -79,8 +81,10 @@ class _HomePageState extends State<HomePage> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Text("Bonjour, ${SharedPrefClass.pref.getString("Email")}",
-                      style:
+              //    Text("Bonjour, ${SharedPrefClass.pref.getString("Email")}", //With Abstract class
+                    Text("Bonjour, ${GetIt.I.get<SharedPreferences>().getString("Email")}", //With Get It singleton
+
+                        style:
                           const TextStyle(color: Color(ConstColors.textInput))),
                 ],
               ),

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 import 'package:receipe/services/shared_pref.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../utilities/abstract_colors.dart';
 import 'home_page.dart';
 
@@ -92,8 +94,11 @@ class _LoginPageState extends State<LoginPage> {
               child: const Text("Log In"),
               onPressed: () {
                 if (userNameCtrl.text=="nelly" && passCtrl.text=="1122") {
-                  SharedPrefClass.pref.setBool("isLogged", true);
-                  SharedPrefClass.pref.setString("Email", userNameCtrl.text);
+                  //SharedPrefClass.pref.setBool("isLogged", true);
+                  //SharedPrefClass.pref.setString("Email", userNameCtrl.text);
+
+                  GetIt.I.get<SharedPreferences>().setBool("isLogged", true);
+                  GetIt.I.get<SharedPreferences>().setString("Email", userNameCtrl.text);
                   Navigator.push(context,
                       MaterialPageRoute(
                           builder: (context) =>  HomePage()));
