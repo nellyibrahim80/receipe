@@ -2,19 +2,24 @@
   "ads": [
     {
       "title": "cake 1",
-      "image": "image1.png"
+      "image": "image0small.png"
     },
     {
       "title": "cake 2",
-      "image": "image2.png"
+      "image": "image1small.png"
     },
     {
       "title": "cake 3",
-      "image": "image3.png"
+      "image": "image2small.png"
     },
     {
       "title": "cake 4",
-      "image": "image4.png"
+      "image": "image2.png"
     }
+  ],
+  "recipes":[
+    {"title": "Grilled Salmon","image": "image0small.png","MealType": "Breakfast","calories": 120,"prepare": 12,"serving": 31},
+    {"title": "French Toast With berries ","image": "image1small.png","MealType": "Main Course","calories": 400,"prepare": 40,"serving": 2},
+    {"title": "CupCake with berries","image": "image2small.png","MealType": "Dinner","calories": 1000,"prepare": 12,"serving": 3}
   ]
 }

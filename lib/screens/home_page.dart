@@ -6,6 +6,8 @@ import 'package:flutter/services.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 //import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import '../models/advs.dart';
+import '../models/recipe.dart';
 import '../services/shared_pref.dart';
 import '../utilities/abstract_colors.dart';
 import '../widgets/BlackTitle.dart';
@@ -24,6 +26,8 @@ class _HomePageState extends State<HomePage> {
   int current = 0;
   CarouselController carousel = CarouselController();
   TextEditingController searchCtrl = TextEditingController();
+  List<Advs> advList=[];
+  List<Recipes> RecipeList=[];
   @override
   void initState() {
     // TODO: implement initState
@@ -34,9 +38,13 @@ class _HomePageState extends State<HomePage> {
 
   void initdata() async {
     var adsData = await rootBundle.loadString("assets/data/data.json");
-    var decodedData =
-        List<Map<String, dynamic>>.from(jsonDecode(adsData)["ads"]);
-    print("----------------$decodedData");
+    var decodedData = List<Map<String, dynamic>>.from(jsonDecode(adsData)["ads"]);
+    var decodedRecipe=List<Map<String,dynamic>>.from(jsonDecode(adsData)["recipes"]);
+    advList=decodedData.map((e) => Advs.fromJson(e)).toList();
+    RecipeList=decodedRecipe.map((e) => Recipes.fromJson(e)).toList();
+    print("----------------$decodedRecipe");
+    print("----------------$RecipeList");
+
   }
 
   @override
@@ -105,10 +113,10 @@ class _HomePageState extends State<HomePage> {
                         hintText: "Search",
                         prefixIcon: Icon(Icons.search),
                         prefixIconColor: Color(ConstColors.textInput),
-                        enabledBorder: OutlineInputBorder(
-                            borderSide: const BorderSide(
+                        enabledBorder:const OutlineInputBorder(
+                            borderSide:  BorderSide(
                                 color: Color(ConstColors.bgInput))),
-          
+
                         border: OutlineInputBorder(
                             borderSide: const BorderSide(
                                 color: Color(ConstColors.bgInput)),
@@ -124,7 +132,7 @@ class _HomePageState extends State<HomePage> {
                   ),
                   Container(
                     height: 40,
-                    color: Color(ConstColors.bgInput),
+                    color: const Color(ConstColors.bgInput),
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: InkWell(
@@ -152,7 +160,7 @@ class _HomePageState extends State<HomePage> {
                               current = index;
                               setState(() {});
                             }),
-                        items: [1, 2, 3, 4, 5].map((i) {
+                        items: advList.map((Advs) {
                           return Builder(
                             builder: (BuildContext context) {
                               return Container(
@@ -162,17 +170,17 @@ class _HomePageState extends State<HomePage> {
                                   decoration: BoxDecoration(
                                       image: DecorationImage(
                                           image: AssetImage(
-                                              "assets/images/image$i.png")),
+                                              "assets/images/${Advs.image}")),
                                       color: Colors.white),
                                   child: Text(
-                                    'text $i',
+                                    Advs.title ?? "",
                                     style: const TextStyle(fontSize: 16.0),
                                   ));
                             },
                           );
                         }).toList(),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 10,
                       ),
                       DotsIndicator(
@@ -199,7 +207,7 @@ class _HomePageState extends State<HomePage> {
                       //     await carousel.animateToPage(position);
                       //     setState(() {});
                       //   },
-          
+
                       //   activeIndex: current,
                       //   count: 5,
                       //   effect: WormEffect(),
@@ -237,62 +245,66 @@ class _HomePageState extends State<HomePage> {
               SeeAllHeader(
                 HeaderTitle: "Today's Fresh Recipes",
               ),
-              SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Row(
-                  children: [
-                    ...List.generate(3, (index) => SizedBox(
-                      width: 185,
-                      // height: 100,
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 5.0),
-                        child: Card(
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadiusDirectional.circular(25)),
-                          color: Color(ConstColors.bgInput),
-                          elevation: 0,
-                          //shadowColor: Colors.white,
-                          child: Column(
-                            children: [
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Icon(
-                                    Icons.favorite_border,
-                                    color: Color(ConstColors.textInput),
-                                  ),
-          
-                                  Container(
-                                    width: 90,
-                                    height: 80,
-                                    child: OverflowBox(
-                                      alignment: FractionalOffset.topLeft,
-                                      maxWidth: 130,
-                                      child: Image.asset(
-                                        "assets/images/image${index}small.png",
-                                        width: 200, // Ensure that this value does not exceed maxWidth
-                                        height: 80,
-                                        //fit: BoxFit.cover,
-                                      ),
+              SizedBox(
+                height: 210,
+                child: ListView.builder(itemBuilder: (context, index) {
+                  Recipes recipe=RecipeList[index];
+                  return  SizedBox(
+                    width: 185,
+                    // height: 100,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 5.0),
+                      child: Card(
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadiusDirectional.circular(25)),
+                        color: Color(ConstColors.bgInput),
+                        elevation: 0,
+                        //shadowColor: Colors.white,
+                        child: Column(
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Icon(
+                                  Icons.favorite_border,
+                                  color: Color(ConstColors.textInput),
+                                ),
+
+                                Container(
+                                  width: 90,
+                                  height: 80,
+                                  child: OverflowBox(
+                                    alignment: FractionalOffset.topLeft,
+                                    maxWidth: 130,
+                                    child: Image.asset(
+                                      "assets/images/${recipe.image}",
+                                      width: 200, // Ensure that this value does not exceed maxWidth
+                                      height: 80,
+                                      //fit: BoxFit.cover,
                                     ),
-                                  )
-                                ],
-                              ),
-                              RecipeDetails(RecipeIndex: 1,starsPadding: 6,)
-                            ],
-                          ),
+                                  ),
+                                )
+                              ],
+                            ),
+                            RecipeDetails(RecipeIndex: index ,starsPadding: 6, recipeList: RecipeList,)
+                          ],
                         ),
                       ),
-                    ))
-          
-                  ],
+                    ),
+                  );
+                },
+                scrollDirection: Axis.horizontal,
+                  itemCount: RecipeList.length,
+
                 ),
               ),
+
+
               SeeAllHeader(
                 HeaderTitle: "Recommended",
               ),
-              Recommended(),
+              if(RecipeList!=Null)Recommended(recipeList: RecipeList,)else CircularProgressIndicator(),
             ],
           ),
         ),
