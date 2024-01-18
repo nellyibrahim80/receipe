@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:provider/provider.dart';
@@ -7,10 +8,15 @@ import 'package:receipe/services/shared_pref.dart';
 import 'package:receipe/utilities/abstract_colors.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'firebase_options.dart';
+
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   try {
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
     //SharedPrefClass.pref = await SharedPreferences.getInstance();
     var pref = await SharedPreferences.getInstance();
     GetIt.I.registerSingleton<SharedPreferences>(pref);
@@ -20,7 +26,7 @@ void main() async {
       //SharedPrefClass.pref.clear();
     }
   } catch (e) {
-    print("***************Pref Error*************");
+    print("*************** Error*************");
     print(e);
   }
 
