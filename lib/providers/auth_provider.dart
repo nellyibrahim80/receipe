@@ -1,6 +1,7 @@
 
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
 import '../screens/home_page.dart';
@@ -68,4 +69,14 @@ class AuthFirebaseProvider extends ChangeNotifier{
       }
     } catch (e) {}
   }
+  Future<void> LogIn(BuildContext cntxt) async{
+    try{
+      if(formKey?.currentState?.validate() ?? false){
+        var firebaseInstance=await FirebaseAuth.instance.signInWithEmailAndPassword(email: emailCtrl!.text, password: passCtrl!.text);
+      }
+    }
+        catch(e){print(e);}
+  }
+  
+  
 }
