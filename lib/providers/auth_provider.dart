@@ -9,6 +9,8 @@ import 'package:receipe/screens/splash_screen.dart';
 import '../screens/home_page.dart';
 import '../screens/login.dart';
 import '../screens/register.dart';
+import '../utilities/toest_message_status.dart';
+import '../widgets/ToastMessage.dart';
 
 class AuthFirebaseProvider extends ChangeNotifier{
 
@@ -75,18 +77,23 @@ class AuthFirebaseProvider extends ChangeNotifier{
     } catch (e) {OverlayLoadingProgress.stop();}
   }
   Future<void> LogIn(BuildContext context) async{
-    try{
+    try {
       print("login fun*************");
-      if(formKey?.currentState?.validate() ?? false){
+      if (formKey?.currentState?.validate() ?? false) {
         print("login fun**++++++++++++*");
         OverlayLoadingProgress.start();
-        var firebaseInstance=await FirebaseAuth.instance.signInWithEmailAndPassword(email: emailCtrl!.text, password: passCtrl!.text);
-        if(firebaseInstance.user!=Null) {
+        var firebaseInstance = await FirebaseAuth.instance
+            .signInWithEmailAndPassword(
+            email: emailCtrl!.text, password: passCtrl!.text);
+        if (firebaseInstance.user != Null) {
           OverlayLoadingProgress.stop();
           providerDispose();
+          OverlayToastMessage.show(textMessage: 'Login Successfully.');
           Navigator.pushReplacement(
               context, MaterialPageRoute(builder: (_) => HomePage()));
-
+        }
+      }
+    }
           on FirebaseAuthException catch (e) {
       OverlayLoadingProgress.stop();
 
@@ -120,10 +127,6 @@ class AuthFirebaseProvider extends ChangeNotifier{
       OverlayLoadingProgress.stop();
       OverlayToastMessage.show(textMessage: 'General Error $e');
     }
-        }
-      }
-    }
-        catch(e){print(e);}
   }
  void SignOut(BuildContext context){
     FirebaseAuth.instance.signOut().then((value) => Navigator.pushReplacement

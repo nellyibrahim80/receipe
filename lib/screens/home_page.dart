@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dots_indicator/dots_indicator.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -102,13 +103,13 @@ class _HomePageState extends State<HomePage> {
                   children: [
                     //    Text("Bonjour, ${SharedPrefClass.pref.getString("Email")}", //With Abstract class
                     Text(
-                        "Bonjour, ${GetIt.I.get<SharedPreferences>().getString("Email")}", //With Get It singleton
-
+                       // "Bonjour, ${GetIt.I.get<SharedPreferences>().getString("Email")}", //With Get It singleton
+                        "Bonjour, ${FirebaseAuth.instance.currentUser?.displayName ?? "Anonoymous"}",
                         style: const TextStyle(
                             color: Color(ConstColors.textInput))),
                     IconButton(onPressed: (){
                       value.SignOut(context);
-                    },icon: Icon(Icons.logout),)
+                    },icon: Icon(Icons.logout), tooltip: "Sign Out",)
                   ],
                 ),
               ),
