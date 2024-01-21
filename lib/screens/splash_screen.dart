@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:receipe/screens/login.dart';
@@ -19,7 +20,24 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    sharedPrefinit();
+    initAuthUser();
+  }
+
+  void initAuthUser() async{
+    var authFirebase=FirebaseAuth.instance;
+    await authFirebase.authStateChanges().listen((user) {
+      if(user!=null){
+        print("loged in user");
+        // if (SharedPrefClass.CheckLogging()) { //with shared pref abstract class
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (context) => HomePage(),));
+      }
+      else {
+        print("not logged in user");
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (context) => LoginPage(),));
+      }
+    });
   }
 void sharedPrefinit() async {
     await Future.delayed(Duration(seconds: 3));
