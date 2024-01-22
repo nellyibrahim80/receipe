@@ -5,8 +5,8 @@ String? id;
 
   Advs();
 
-  Advs.fromJson(Map<String, dynamic> data, String id){
-    id=id;
+  Advs.fromJson(Map<String, dynamic> data, String dbId){
+    id=dbId;
     title = data["title"];
     image = data["image"];
   }

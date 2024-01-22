@@ -30,7 +30,7 @@ class _AdvCarouselState extends State<AdvCarousel> {
   @override
   Widget build(BuildContext context) {
     return Consumer<ReadFireAdsProvider>(
-      builder: (BuildContext context, value, Widget? child) => value.adsList == null
+      builder: (BuildContext context, value, Widget? child) => value?.adsList == null
       ? CircularProgressIndicator()
         : (value.adsList?.isEmpty ?? false)
           ?Text("no data")
@@ -76,7 +76,7 @@ class _AdvCarouselState extends State<AdvCarousel> {
         height: 10,
         ),
         DotsIndicator(
-        dotsCount: 5,
+        dotsCount: value.adsList!.length,
         position: value.current!.toInt(),
         decorator: DotsDecorator(
         activeColor: Color(ConstColors.titleColors),
