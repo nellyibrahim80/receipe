@@ -6,6 +6,7 @@ class Recipes {
 
   int? serving;
   int? prepare;
+  String? Description;
   Recipes.fromJson(Map<String, dynamic> data) {
     title = data["title"];
     image = data["image"];
