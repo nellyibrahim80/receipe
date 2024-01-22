@@ -13,9 +13,11 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../models/advs.dart';
 import '../models/recipe.dart';
 import '../providers/auth_provider.dart';
+import '../providers/read_ads_fire_provider.dart';
 import '../services/shared_pref.dart';
 import '../utilities/abstract_colors.dart';
 import '../widgets/BlackTitle.dart';
+import '../widgets/carousel.dart';
 import '../widgets/recipe_details.dart';
 import '../widgets/recommended.dart';
 import '../widgets/see_all.dart';
@@ -38,10 +40,12 @@ class _HomePageState extends State<HomePage> {
     // TODO: implement initState
     initdata();
     Provider.of<AdvProvider>(context, listen: false).LoadJsonFile();
-    Provider.of<AdvProvider>(
-      context,
-      listen: false,
-    ).advFromJson();
+    //Provider.of<AdvProvider>(
+    //   context,
+    //   listen: false,
+    // ).advFromJson();
+    Provider.of<ReadFireAdsProvider>(listen: false,context).getAdsFromFire();
+
     Provider.of<AdvProvider>(context, listen: false).recipesFromJson();
     //SharedPrefClass.pref.clear();
     super.initState();
@@ -165,96 +169,7 @@ class _HomePageState extends State<HomePage> {
               SizedBox(
                   width: 370,
                   height: 200,
-                  child: Consumer<AdvProvider>(
-                    builder: (BuildContext context, value, Widget? child) {
-                      return Stack(children: [
-                        Column(
-                          children: [
-                            CarouselSlider(
-                              carouselController: carousel,
-                              options: CarouselOptions(
-                                  height: 150.0,
-                                  viewportFraction: 1,
-                                  autoPlay: true,
-                                  onPageChanged: (index, _) {
-                                    current = index;
-                                    setState(() {});
-                                  }),
-                              // items: advList.map((Advs) {
-                              items: value.advList.map((Advs) {
-                                print(
-                                    "************************${value.advList}");
-                                return Builder(
-                                  builder: (BuildContext context) {
-                                    return Container(
-                                        width:
-                                            MediaQuery.of(context).size.width,
-                                        margin: const EdgeInsets.symmetric(
-                                            horizontal: 5.0),
-                                        decoration: BoxDecoration(
-                                            image: DecorationImage(
-                                                image: AssetImage(
-                                                    "assets/images/${Advs.image}")),
-                                            color: Colors.white),
-                                        child: Text(
-                                          Advs.title ?? "",
-                                          style:
-                                              const TextStyle(fontSize: 16.0),
-                                        ));
-                                  },
-                                );
-                              }).toList(),
-                            ),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            DotsIndicator(
-                              dotsCount: 5,
-                              position: current,
-                              decorator: DotsDecorator(
-                                activeColor: Color(ConstColors.titleColors),
-                                size: const Size.square(9.0),
-                                activeSize: const Size(18.0, 9.0),
-                                activeShape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(5.0)),
-                              ),
-                              onTap: (position) async {
-                                current = position;
-                                await carousel.animateToPage(position);
-                                setState(() {});
-                              },
-                            ),
-                          ],
-                        ),
-                        Positioned(
-                            top: 90,
-                            left: 0,
-                            child: Opacity(
-                                opacity: .5,
-                                child: IconButton(
-                                  onPressed: () async {
-                                    await carousel.previousPage();
-                                    setState(() {});
-                                  },
-                                  icon: Icon(Icons.arrow_back_ios_new_outlined),
-                                ))),
-                        Positioned(
-                          top: 90,
-                          right: 0,
-                          child: Opacity(
-                            opacity: .5,
-                            child: IconButton(
-                              onPressed: () async {
-                                await carousel.nextPage();
-                                setState(() {});
-                              },
-                              icon: Icon(Icons.arrow_forward_ios_outlined),
-                            ),
-                          ),
-                        ),
-                      ]);
-                    },
-                  )),
+                  child: AdvCarousel()),
               SeeAllHeader(
                 HeaderTitle: "Today's Fresh Recipes",
               ),

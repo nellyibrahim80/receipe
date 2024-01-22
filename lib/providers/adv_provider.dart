@@ -24,7 +24,7 @@ class AdvProvider extends ChangeNotifier {
     // var decodedData =
     // List<Map<String, dynamic>>.from(jsonDecode(adsData2)["ads"]);
     var decodedData = await DecodeJsonData("ads");
-    advList = decodedData.map((e) => Advs.fromJson(e)).toList();
+    //advList = decodedData.map((e) => Advs.fromJson(e)).toList();
     print("----------------$advList");
     notifyListeners();
   }
