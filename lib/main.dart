@@ -5,6 +5,7 @@ import 'package:overlay_kit/overlay_kit.dart';
 import 'package:provider/provider.dart';
 import 'package:receipe/providers/adv_provider.dart';
 import 'package:receipe/providers/auth_provider.dart';
+import 'package:receipe/providers/read_ads_fire_provider.dart';
 import 'package:receipe/screens/splash_screen.dart';
 import 'package:receipe/services/shared_pref.dart';
 import 'package:receipe/utilities/abstract_colors.dart';
@@ -35,7 +36,9 @@ void main() async {
   runApp(MultiProvider (
     providers: [
       ChangeNotifierProvider(create: (context) => AdvProvider(),),
-      ChangeNotifierProvider(create: (context) => AuthFirebaseProvider(),)
+      ChangeNotifierProvider(create: (context) => AuthFirebaseProvider(),),
+        ChangeNotifierProvider(create: (context) => ReadFireAdsProvider(),)
+
     ],
       child: const MyApp()));
 }
