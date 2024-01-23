@@ -14,6 +14,7 @@ import '../models/advs.dart';
 import '../models/recipe.dart';
 import '../providers/auth_provider.dart';
 import '../providers/read_ads_fire_provider.dart';
+import '../providers/recipe_fire_provider.dart';
 import '../services/shared_pref.dart';
 import '../utilities/abstract_colors.dart';
 import '../widgets/BlackTitle.dart';
@@ -45,7 +46,7 @@ class _HomePageState extends State<HomePage> {
     //   listen: false,
     // ).advFromJson();
     Provider.of<ReadFireAdsProvider>(listen: false,context).getAdsFromFire();
-
+Provider.of<RecipeFireProvider>(listen: false,context).getDBRecipe();
     Provider.of<AdvProvider>(context, listen: false).recipesFromJson();
     //SharedPrefClass.pref.clear();
     super.initState();
@@ -173,14 +174,14 @@ class _HomePageState extends State<HomePage> {
               SeeAllHeader(
                 HeaderTitle: "Today's Fresh Recipes",
               ),
-              Consumer<AdvProvider>(
+              Consumer<RecipeFireProvider>(
                 builder: (cntxt, Rvalue, child) {
                   return SizedBox(
                     height: 210,
                     child: ListView.builder(
                       itemBuilder: (context, index) {
                         print("${index}????=====?????????????");
-                        Recipes recipe = Rvalue.RecipeList[index];
+                        Recipes recipe = Rvalue.recipeList[index];
 
                         return SizedBox(
                           width: 185,
@@ -226,7 +227,7 @@ class _HomePageState extends State<HomePage> {
                                   RecipeDetails(
                                     RecipeIndex: index,
                                     starsPadding: 6,
-                                    recipeList: Rvalue.RecipeList,
+                                    recipeList: Rvalue.recipeList,
                                   )
                                 ],
                               ),
@@ -235,7 +236,7 @@ class _HomePageState extends State<HomePage> {
                         );
                       },
                       scrollDirection: Axis.horizontal,
-                      itemCount: Rvalue.RecipeList.length,
+                      itemCount: Rvalue.recipeList.length,
                     ),
                   );
                 },

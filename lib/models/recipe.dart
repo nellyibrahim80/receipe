@@ -1,4 +1,5 @@
 class Recipes {
+  String? id;
   String? title;
   String? image;
   String? MealType;
@@ -7,7 +8,8 @@ class Recipes {
   int? serving;
   int? prepare;
   String? Description;
-  Recipes.fromJson(Map<String, dynamic> data) {
+  Recipes.fromJson(Map<String, dynamic> data,[String? docId]) {
+    id=docId;
     title = data["title"];
     image = data["image"];
     MealType = data["MealType"];
