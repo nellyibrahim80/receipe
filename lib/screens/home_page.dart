@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
 import 'package:get_it/get_it.dart';
 import 'package:provider/provider.dart';
 import 'package:receipe/providers/adv_provider.dart';
@@ -22,6 +23,7 @@ import '../widgets/carousel.dart';
 import '../widgets/recipe_details.dart';
 import '../widgets/recommended.dart';
 import '../widgets/see_all.dart';
+import 'menu_screen.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({super.key});
@@ -34,6 +36,7 @@ class _HomePageState extends State<HomePage> {
   int current = 0;
   CarouselController carousel = CarouselController();
   TextEditingController searchCtrl = TextEditingController();
+  final ZoomDrawerController zoomDrawerController=ZoomDrawerController();
   List<Advs> advList = [];
   List<Recipes> RecipeList = [];
   @override
@@ -65,195 +68,213 @@ Provider.of<RecipeFireProvider>(listen: false,context).getDBRecipe();
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        leading: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8.0),
-          child: IconButton(
-            icon: Image.asset(
-              'assets/Icons/menu.png',
-              width: 80,
-              height: 80,
-            ),
-            onPressed: () {
-              // Your onPressed logic here
-            },
-          ),
-        ),
-        actions: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: IconButton(
-              icon: Image.asset(
-                'assets/Icons/notifications.png',
-                width: 30,
-                height: 80,
-              ), // Replace with your image path
-              onPressed: () {
-                // Your onPressed logic here
-              },
-            ),
-          )
-        ],
-      ),
-      body: SafeArea(
-          child: Padding(
-        padding: const EdgeInsets.only(left: 20, right: 20),
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              Consumer<AuthFirebaseProvider>(
-                builder: (context, value, child) => Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    //    Text("Bonjour, ${SharedPrefClass.pref.getString("Email")}", //With Abstract class
-                    Text(
-                       // "Bonjour, ${GetIt.I.get<SharedPreferences>().getString("Email")}", //With Get It singleton
-                        "Bonjour, ${FirebaseAuth.instance.currentUser?.displayName ?? "Anonoymous"}",
-                        style: const TextStyle(
-                            color: Color(ConstColors.textInput))),
-                    IconButton(onPressed: (){
-                      value.SignOut(context);
-                    },icon: Icon(Icons.logout), tooltip: "Sign Out",)
-                  ],
+
+    return
+      ZoomDrawer(
+
+        controller: zoomDrawerController,
+        disableDragGesture: true,
+        mainScreenTapClose: true,
+        menuBackgroundColor: Colors.white,
+
+        menuScreen: MenuScreen(),
+        mainScreen: Scaffold(
+          appBar: AppBar(
+            leading: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              child: IconButton(
+                icon: Image.asset(
+                  'assets/Icons/menu.png',
+                  width: 80,
+                  height: 80,
                 ),
-              ),
-              HeaderBlack(
-                HeaderBlackTitle: "What would you like to cook today?",
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  SizedBox(
-                    width: 320,
-                    height: 40,
-                    child: TextFormField(
-                      controller: searchCtrl,
-                      decoration: InputDecoration(
-                        fillColor: Color(ConstColors.bgInput),
-                        filled: true,
-                        hintText: "Search",
-                        prefixIcon: Icon(Icons.search),
-                        prefixIconColor: Color(ConstColors.textInput),
-                        enabledBorder: const OutlineInputBorder(
-                            borderSide:
-                                BorderSide(color: Color(ConstColors.bgInput))),
-
-                        border: OutlineInputBorder(
-                            borderSide: const BorderSide(
-                                color: Color(ConstColors.bgInput)),
-                            borderRadius: BorderRadius.circular(20)),
-                        //UnderlineInputBorder(borderSide: BorderSide(color: Color(ConstColors.bgInput))),
-                        hintStyle: const TextStyle(
-                          color: Color(ConstColors.textInput),
-                          fontWeight: FontWeight.normal,
-                        ),
-                      ),
-                      style:
-                          const TextStyle(color: Color(ConstColors.textInput)),
-                    ),
-                  ),
-                  Container(
-                    height: 40,
-                    color: const Color(ConstColors.bgInput),
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: InkWell(
-                          child: Image.asset(
-                        "assets/Icons/filter.png",
-                        height: 35,
-                      )),
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(
-                  width: 370,
-                  height: 200,
-                  child: AdvCarousel()),
-              SeeAllHeader(
-                HeaderTitle: "Today's Fresh Recipes",
-              ),
-              Consumer<RecipeFireProvider>(
-                builder: (cntxt, Rvalue, child) {
-                  return SizedBox(
-                    height: 210,
-                    child: ListView.builder(
-                      itemBuilder: (context, index) {
-                        print("${index}????=====?????????????");
-                        Recipes recipe = Rvalue.recipeList[index];
-
-                        return SizedBox(
-                          width: 185,
-                          // height: 100,
-                          child: Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 5.0),
-                            child: Card(
-                              shape: RoundedRectangleBorder(
-                                  borderRadius:
-                                      BorderRadiusDirectional.circular(25)),
-                              color: Color(ConstColors.bgInput),
-                              elevation: 0,
-                              //shadowColor: Colors.white,
-                              child: Column(
-                                children: [
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Icon(
-                                        Icons.favorite_border,
-                                        color: Color(ConstColors.textInput),
-                                      ),
-                                      Container(
-                                        width: 90,
-                                        height: 80,
-                                        child: OverflowBox(
-                                          alignment: FractionalOffset.topLeft,
-                                          maxWidth: 130,
-                                          child: Image.asset(
-                                            "assets/images/${recipe.image}",
-                                            width:
-                                                200, // Ensure that this value does not exceed maxWidth
-                                            height: 80,
-                                            //fit: BoxFit.cover,
-                                          ),
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                  RecipeDetails(
-                                    RecipeIndex: index,
-                                    starsPadding: 6,
-                                    recipeList: Rvalue.recipeList,
-                                  )
-                                ],
-                              ),
-                            ),
-                          ),
-                        );
-                      },
-                      scrollDirection: Axis.horizontal,
-                      itemCount: Rvalue.recipeList.length,
-                    ),
-                  );
+                onPressed: () {
+                  // Your onPressed logic here
+                  zoomDrawerController.toggle!();
                 },
               ),
-              SeeAllHeader(
-                HeaderTitle: "Recommended",
-              ),
-              if (RecipeList != Null)
-                Recommended(
-                  recipeList: RecipeList,
-                )
-              else
-                CircularProgressIndicator(),
+            ),
+            actions: [
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: IconButton(
+                  icon: Image.asset(
+                    'assets/Icons/notifications.png',
+                    width: 30,
+                    height: 80,
+                  ), // Replace with your image path
+                  onPressed: () {
+                    // Your onPressed logic here
+                  },
+                ),
+              )
             ],
           ),
+          body: SafeArea(
+              child: Padding(
+                padding: const EdgeInsets.only(left: 20, right: 20),
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      Consumer<AuthFirebaseProvider>(
+                        builder: (context, value, child) => Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            //    Text("Bonjour, ${SharedPrefClass.pref.getString("Email")}", //With Abstract class
+                            Text(
+                              // "Bonjour, ${GetIt.I.get<SharedPreferences>().getString("Email")}", //With Get It singleton
+                                "Bonjour, ${FirebaseAuth.instance.currentUser?.displayName ?? "Anonoymous"}",
+                                style: const TextStyle(
+                                    color: Color(ConstColors.textInput))),
+                            IconButton(onPressed: (){
+                              value.SignOut(context);
+                            },icon: Icon(Icons.logout), tooltip: "Sign Out",)
+                          ],
+                        ),
+                      ),
+                      HeaderBlack(
+                        HeaderBlackTitle: "What would you like to cook today?",
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          SizedBox(
+                            width: 320,
+                            height: 40,
+                            child: TextFormField(
+                              controller: searchCtrl,
+                              decoration: InputDecoration(
+                                fillColor: Color(ConstColors.bgInput),
+                                filled: true,
+                                hintText: "Search",
+                                prefixIcon: Icon(Icons.search),
+                                prefixIconColor: Color(ConstColors.textInput),
+                                enabledBorder: const OutlineInputBorder(
+                                    borderSide:
+                                    BorderSide(color: Color(ConstColors.bgInput))),
+
+                                border: OutlineInputBorder(
+                                    borderSide: const BorderSide(
+                                        color: Color(ConstColors.bgInput)),
+                                    borderRadius: BorderRadius.circular(20)),
+                                //UnderlineInputBorder(borderSide: BorderSide(color: Color(ConstColors.bgInput))),
+                                hintStyle: const TextStyle(
+                                  color: Color(ConstColors.textInput),
+                                  fontWeight: FontWeight.normal,
+                                ),
+                              ),
+                              style:
+                              const TextStyle(color: Color(ConstColors.textInput)),
+                            ),
+                          ),
+                          Container(
+                            height: 40,
+                            color: const Color(ConstColors.bgInput),
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: InkWell(
+                                  child: Image.asset(
+                                    "assets/Icons/filter.png",
+                                    height: 35,
+                                  )),
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                          width: 370,
+                          height: 200,
+                          child: AdvCarousel()),
+                      SeeAllHeader(
+                        HeaderTitle: "Today's Fresh Recipes",
+                      ),
+                      Consumer<RecipeFireProvider>(
+                        builder: (cntxt, Rvalue, child) {
+                          return SizedBox(
+                            height: 210,
+                            child: ListView.builder(
+                              itemBuilder: (context, index) {
+                                print("${index}????=====?????????????");
+                                Recipes recipe = Rvalue.recipeList[index];
+
+                                return SizedBox(
+                                  width: 185,
+                                  // height: 100,
+                                  child: Padding(
+                                    padding:
+                                    const EdgeInsets.symmetric(horizontal: 5.0),
+                                    child: Card(
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                          BorderRadiusDirectional.circular(25)),
+                                      color: Color(ConstColors.bgInput),
+                                      elevation: 0,
+                                      //shadowColor: Colors.white,
+                                      child: Column(
+                                        children: [
+                                          Row(
+                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                            children: [
+                                              Icon(
+                                                Icons.favorite_border,
+                                                color: Color(ConstColors.textInput),
+                                              ),
+                                              Container(
+                                                width: 90,
+                                                height: 80,
+                                                child: OverflowBox(
+                                                  alignment: FractionalOffset.topLeft,
+                                                  maxWidth: 130,
+                                                  child: Image.asset(
+                                                    "assets/images/${recipe.image}",
+                                                    width:
+                                                    200, // Ensure that this value does not exceed maxWidth
+                                                    height: 80,
+                                                    //fit: BoxFit.cover,
+                                                  ),
+                                                ),
+                                              )
+                                            ],
+                                          ),
+                                          RecipeDetails(
+                                            RecipeIndex: index,
+                                            starsPadding: 6,
+                                            recipeList: Rvalue.recipeList,
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              },
+                              scrollDirection: Axis.horizontal,
+                              itemCount: Rvalue.recipeList.length,
+                            ),
+                          );
+                        },
+                      ),
+                      SeeAllHeader(
+                        HeaderTitle: "Recommended",
+                      ),
+                      if (RecipeList != Null)
+                        Recommended(
+                          recipeList: RecipeList,
+                        )
+                      else
+                        CircularProgressIndicator(),
+                    ],
+                  ),
+                ),
+              )),
         ),
-      )),
-    );
+        borderRadius: 24.0,
+        showShadow: true,
+        angle: -5.0,
+        drawerShadowsBackgroundColor: Colors.grey.shade300,
+        slideWidth: MediaQuery.of(context).size.width * 0.65,
+      )
+      ;
   }
 }

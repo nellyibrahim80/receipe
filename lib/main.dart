@@ -5,6 +5,7 @@ import 'package:overlay_kit/overlay_kit.dart';
 import 'package:provider/provider.dart';
 import 'package:receipe/providers/adv_provider.dart';
 import 'package:receipe/providers/auth_provider.dart';
+import 'package:receipe/providers/ingredient_provider.dart';
 import 'package:receipe/providers/read_ads_fire_provider.dart';
 import 'package:receipe/providers/recipe_fire_provider.dart';
 import 'package:receipe/screens/splash_screen.dart';
@@ -45,6 +46,9 @@ void main() async {
     ),
     ChangeNotifierProvider(
       create: (context) => RecipeFireProvider(),
+    ),
+    ChangeNotifierProvider(
+      create: (context) => IngredientFireProvider(),
     ),
   ], child: const MyApp()));
 }

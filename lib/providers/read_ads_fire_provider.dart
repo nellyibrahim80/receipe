@@ -11,6 +11,7 @@ class ReadFireAdsProvider extends ChangeNotifier {
 
   void onTapMovPos (position) async {
     current = position;
+    print(current);
     await carousel?.animateToPage(position);
     notifyListeners();}
   void onPressedCarouselPrev() async {
