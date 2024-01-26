@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:receipe/screens/favourit.dart';
 import 'package:receipe/screens/ingredient.dart';
 
 class MenuScreen extends StatefulWidget {
@@ -25,6 +26,17 @@ class _MenuScreenState extends State<MenuScreen> {
                   },
                  ),
               leading: Icon(Icons.food_bank_outlined),
+            ),
+            ListTile(
+              title: TextButton( child: Text("Favourit",style: TextStyle(color: Colors.black87),),
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => FavouritesPage()));
+                },
+              ),
+              leading: Icon(Icons.favorite),
             ),
           ],
         ),
