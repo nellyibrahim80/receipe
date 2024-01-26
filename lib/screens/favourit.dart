@@ -1,7 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flexible_grid_view/flexible_grid_view.dart';
 
 import 'package:flutter/material.dart';
+
+import '../models/recipe.dart';
+import '../widgets/recipe_widget.dart';
 
 
 class FavouritesPage extends StatefulWidget {
@@ -32,13 +36,13 @@ class _FavouritesPageState extends State<FavouritesPage> {
                 return const Text('ERROR WHEN GET DATA');
               } else {
                 if (snapshots.hasData) {
-                  List<Recipe> recipesList = snapshots.data?.docs
-                      .map((e) => Recipe.fromJson(e.data(), e.id))
+                  List<Recipes> recipesList = snapshots.data?.docs
+                      .map((e) => Recipes.fromJson(e.data(), e.id))
                       .toList() ??
                       [];
                   return FlexibleGridView(
                     children: recipesList
-                        .map((e) => RecipeWidget(recipe: e))
+                        .map((e) => RecipeWidget(recipe: e, index: null,))
                         .toList(),
                     axisCount: GridLayoutEnum.twoElementsInRow,
                     crossAxisSpacing: 8,

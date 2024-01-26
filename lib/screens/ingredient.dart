@@ -23,15 +23,7 @@ class _IngredientPageState extends State<IngredientPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(
-            icon: Icon(Icons.arrow_back_outlined),
-            onPressed: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => HomePage(),
-                  ));
-            }),
+        title: Text('Ingredient'),
       ),
       body: Consumer<IngredientFireProvider>(
         builder: (context, ingProvValue, _) {

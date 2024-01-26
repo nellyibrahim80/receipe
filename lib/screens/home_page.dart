@@ -9,6 +9,7 @@ import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
 import 'package:get_it/get_it.dart';
 import 'package:provider/provider.dart';
 import 'package:receipe/providers/adv_provider.dart';
+import 'package:receipe/widgets/recipe_widget.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 //import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import '../models/advs.dart';
@@ -190,80 +191,50 @@ Provider.of<RecipeFireProvider>(listen: false,context).getDBRecipe();
                       ),
                       Consumer<RecipeFireProvider>(
                         builder: (cntxt, Rvalue, child) {
-                          return SizedBox(
-                            height: 210,
-                            child: ListView.builder(
-                              itemBuilder: (context, index) {
-                                print("${index}????=====?????????????");
-                                Recipes recipe = Rvalue.recipeList[index];
+                          return Column(
+                            children: [
+                              SizedBox(
+                                height: 210,
+                                child: ListView.builder(
+                                  itemBuilder: (context, index) {
+                                    print("${index}????=====?????????????");
+                                    Recipes recipe = Rvalue.recipeList[index];
 
-                                return SizedBox(
-                                  width: 185,
-                                  // height: 100,
-                                  child: Padding(
-                                    padding:
-                                    const EdgeInsets.symmetric(horizontal: 5.0),
-                                    child: Card(
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                          BorderRadiusDirectional.circular(25)),
-                                      color: Color(ConstColors.bgInput),
-                                      elevation: 0,
-                                      //shadowColor: Colors.white,
-                                      child: Column(
-                                        children: [
-                                          Row(
-                                            mainAxisAlignment: MainAxisAlignment.center,
-                                            crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                            children: [
-                                              Icon(
-                                                Icons.favorite_border,
-                                                color: Color(ConstColors.textInput),
-                                              ),
-                                              Container(
-                                                width: 90,
-                                                height: 80,
-                                                child: OverflowBox(
-                                                  alignment: FractionalOffset.topLeft,
-                                                  maxWidth: 130,
-                                                  child: Image.asset(
-                                                    "assets/images/${recipe.image}",
-                                                    width:
-                                                    200, // Ensure that this value does not exceed maxWidth
-                                                    height: 80,
-                                                    //fit: BoxFit.cover,
-                                                  ),
-                                                ),
-                                              )
-                                            ],
-                                          ),
-                                          RecipeDetails(
-                                            RecipeIndex: index,
-                                            starsPadding: 6,
-                                            recipeList: Rvalue.recipeList,
-                                          )
-                                        ],
+                                    return SizedBox(
+                                      width: 185,
+                                      // height: 100,
+                                      child: Padding(
+                                        padding:
+                                        const EdgeInsets.symmetric(horizontal: 5.0),
+                                        child: Card(
+                                          shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                              BorderRadiusDirectional.circular(25)),
+                                          color: Color(ConstColors.bgInput),
+                                          elevation: 0,
+                                          //shadowColor: Colors.white,
+                                          child: RecipeWidget(index: index,  recipe: recipe,),
+                                        ),
                                       ),
-                                    ),
-                                  ),
-                                );
-                              },
-                              scrollDirection: Axis.horizontal,
-                              itemCount: Rvalue.recipeList.length,
-                            ),
+                                    );
+                                  },
+                                  scrollDirection: Axis.horizontal,
+                                  itemCount: Rvalue.recipeList.length,
+                                ),
+                              ),    SeeAllHeader(
+                                HeaderTitle: "Recommended",
+                              ),
+                              if (Rvalue.recipeList != Null)
+                                Recommended(
+                                  recipeList: Rvalue.recipeList,
+                                )
+                              else
+                                CircularProgressIndicator(),
+                            ],
                           );
                         },
                       ),
-                      SeeAllHeader(
-                        HeaderTitle: "Recommended",
-                      ),
-                      if (RecipeList != Null)
-                        Recommended(
-                          recipeList: RecipeList,
-                        )
-                      else
-                        CircularProgressIndicator(),
+
                     ],
                   ),
                 ),

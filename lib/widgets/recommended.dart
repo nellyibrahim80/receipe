@@ -40,7 +40,7 @@ class Recommended extends StatelessWidget {
 
                   //fit: BoxFit.cover,
                 ),
-              ),title: RecipeDetails(RecipeIndex: index, recipeList: recipeList,),
+              ),title: RecipeDetails( recipe: recipe,),
               trailing: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [

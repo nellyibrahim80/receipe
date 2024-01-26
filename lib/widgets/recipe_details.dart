@@ -4,14 +4,14 @@ import '../models/recipe.dart';
 import '../utilities/abstract_colors.dart';
 
 class RecipeDetails extends StatelessWidget {
-  final int RecipeIndex;
+  //final int RecipeIndex;
    final double? starsPadding ;
-    final List<Recipes> recipeList;
-   RecipeDetails({required this.RecipeIndex,this.starsPadding,super.key, required this.recipeList});
+    final Recipes recipe;
+   RecipeDetails({this.starsPadding,super.key, required this.recipe});
 
   @override
   Widget build(BuildContext context) {
-    Recipes recipe=recipeList[RecipeIndex];
+   // Recipes recipe=recipeList[RecipeIndex];
     EdgeInsetsGeometry padding = EdgeInsets.only(
       bottom: starsPadding ?? 0.0,
       top: starsPadding ?? 0.0,
