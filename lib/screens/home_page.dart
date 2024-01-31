@@ -8,7 +8,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
 import 'package:get_it/get_it.dart';
 import 'package:provider/provider.dart';
-import 'package:receipe/providers/adv_provider.dart';
+
 import 'package:receipe/widgets/recipe_widget.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 //import 'package:smooth_page_indicator/smooth_page_indicator.dart';
@@ -44,15 +44,15 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     // TODO: implement initState
     initdata();
-    Provider.of<AdvProvider>(context, listen: false).LoadJsonFile();
+
     //Provider.of<AdvProvider>(
     //   context,
     //   listen: false,
     // ).advFromJson();
     Provider.of<ReadFireAdsProvider>(listen: false,context).getAdsFromFire();
 Provider.of<RecipeFireProvider>(listen: false,context).getDBRecipe();
-    Provider.of<AdvProvider>(context, listen: false).recipesFromJson();
-    //SharedPrefClass.pref.clear();
+
+
     super.initState();
   }
 

@@ -20,7 +20,7 @@ class _FavouritesPageState extends State<FavouritesPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Favourites page'),
+        title: const Text('Favourites page'),
       ),
       body: StreamBuilder(
           stream: FirebaseFirestore.instance
@@ -41,12 +41,13 @@ class _FavouritesPageState extends State<FavouritesPage> {
                       .toList() ??
                       [];
                   return FlexibleGridView(
-                    children: recipesList
-                        .map((e) => RecipeWidget(recipe: e, index: null,))
-                        .toList(),
                     axisCount: GridLayoutEnum.twoElementsInRow,
                     crossAxisSpacing: 8,
                     mainAxisSpacing: 8,
+                    children: recipesList
+                        .map((e) => RecipeWidget(recipe: e, index: null,))
+                        .toList(),
+
                   );
                 } else {
                   return const Text('No Data Found');

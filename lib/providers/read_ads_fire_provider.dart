@@ -6,14 +6,19 @@ import '../models/advs.dart';
 
 class ReadFireAdsProvider extends ChangeNotifier {
   List<Advs>? adsList = [];
-  CarouselController? carousel;
+  CarouselController? carousel= CarouselController();
   int? current=0;
 
+  void onPageChanged (int index) async {
+  current = index;
+  notifyListeners();
+}
   void onTapMovPos (position) async {
     current = position;
     print(current);
     await carousel?.animateToPage(position);
     notifyListeners();}
+
   void onPressedCarouselPrev() async {
     await carousel?.previousPage();
    notifyListeners();
@@ -21,6 +26,9 @@ class ReadFireAdsProvider extends ChangeNotifier {
   void onPressedCarouselNext() async {
     await carousel?.nextPage();
     notifyListeners();
+  }
+  void disposeCarousel() {
+    carousel = null;
   }
   Future<void> getAdsFromFire() async {
     try {

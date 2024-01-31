@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:overlay_kit/overlay_kit.dart';
 import 'package:provider/provider.dart';
-import 'package:receipe/providers/adv_provider.dart';
+
 import 'package:receipe/providers/auth_provider.dart';
 import 'package:receipe/providers/ingredient_provider.dart';
 import 'package:receipe/providers/read_ads_fire_provider.dart';
@@ -21,23 +21,16 @@ void main() async {
     await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
     );
-    //SharedPrefClass.pref = await SharedPreferences.getInstance();
-    var pref = await SharedPreferences.getInstance();
-    GetIt.I.registerSingleton<SharedPreferences>(pref);
 
-    if (SharedPrefClass.pref != null) {
-      print("***************Pref Created Successfully*************");
-      //SharedPrefClass.pref.clear();
-    }
+
+
   } catch (e) {
-    print("*************** Error*************");
+    print("*************** Error Firebase.initializeApp main page*************");
     print(e);
   }
 
   runApp(MultiProvider(providers: [
-    ChangeNotifierProvider(
-      create: (context) => AdvProvider(),
-    ),
+
     ChangeNotifierProvider(
       create: (context) => AuthFirebaseProvider(),
     ),

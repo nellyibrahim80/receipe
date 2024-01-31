@@ -3,12 +3,14 @@ class Recipes {
   String? title;
   String? image;
   String? MealType;
-  int? calories;
+  num? calories;
   int? serving;
   int? prepare;
+  num? rate;
   String? Description;
   List<String>? ingredient;
   List<String>? favourite_users_ids;
+  Map<String,String>? direction;
 
   Recipes.fromJson(Map<String, dynamic> data,[String? docId]) {
     id=docId;
@@ -18,12 +20,17 @@ class Recipes {
     calories = data["calories"];
     prepare = data["prepare"];
     serving = data["serving"];
-    ingredient = data['ingredients'] != null
+    rate = data["rate"];
+    ingredient = data['ingredient'] != null
         ? List<String>.from(data['ingredient'].map((e) => e.toString()))
         : null;
     favourite_users_ids = data['favourite_users_ids'] != null
         ? List<String>.from(
         data['favourite_users_ids'].map((e) => e.toString()))
+        : null;
+    direction = data['direction'] != null
+        ? Map<String,String>.from(
+        data['direction'])
         : null;
   }
 
@@ -35,8 +42,10 @@ class Recipes {
       "calories": calories,
       "prepare": prepare,
       "serving": serving,
+      "rate":rate,
       "ingredient": ingredient,
-      "favourite_users_ids": favourite_users_ids
+      "favourite_users_ids": favourite_users_ids,
+      "direction":direction
     };
   }
 }

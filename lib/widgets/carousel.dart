@@ -3,7 +3,6 @@ import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../providers/adv_provider.dart';
 import '../providers/read_ads_fire_provider.dart';
 import '../utilities/abstract_colors.dart';
 
@@ -26,6 +25,13 @@ class _AdvCarouselState extends State<AdvCarousel> {
     await Provider.of<ReadFireAdsProvider>(listen: false, context)
         .getAdsFromFire();
   }
+  @override
+  void dispose() {
+    // TODO: implement dispose
+     Provider.of<ReadFireAdsProvider>(listen: false, context)
+        .disposeCarousel();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -44,11 +50,14 @@ class _AdvCarouselState extends State<AdvCarousel> {
                                 height: 150.0,
                                 viewportFraction: 1,
                                 autoPlay: false,
-                                onPageChanged: (index, _) {
+                                onPageChanged: (index, _) =>
+                                    value.onPageChanged(index),
+                                enlargeFactor: .3),
+                            /*(index, _) {
                                   value.current = index;
                                   setState(() {});
-                                }),
-                            // items: advList.map((Advs) {
+                                })*/
+                            //items: advList.map((Advs) {
                             items: value.adsList?.map((Advs) {
                               print("************************${value.adsList}");
                               return Builder(
