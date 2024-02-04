@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 import '../models/recipe.dart';
 import '../utilities/abstract_colors.dart';
@@ -15,6 +16,7 @@ class RecipeDetails extends StatelessWidget {
     EdgeInsetsGeometry padding = EdgeInsets.only(
       bottom: starsPadding ?? 0.0,
       top: starsPadding ?? 0.0,
+      left: 0.0
     );
     return Container(
       //color: Colors.red,
@@ -48,18 +50,38 @@ class RecipeDetails extends StatelessWidget {
           ),
           Padding(
             padding: padding,
-            child: Row(
-              children: [
-                ...List.generate(
-                    5,
-                        (index) => Icon(
-                      Icons.star_rounded,
-                      size: 18,
-                      color: Color(ConstColors.titleColors),
-                    )),
-                 
-              ],
+            child: Align( alignment: Alignment.topLeft,
+
+              child: RatingBar.builder(
+                initialRating: recipe.rate!=null ?recipe.rate!.toDouble() :5,
+                minRating: 1,
+                direction: Axis.horizontal,
+                allowHalfRating: true,
+                itemCount: 5,
+
+                itemSize: 20,
+                itemPadding: EdgeInsets.symmetric(horizontal: 1.0),
+                itemBuilder: (context, _) => Icon(
+                  Icons.star,
+                  color: Color(ConstColors.titleColors),
+                ),
+                onRatingUpdate: (rating) {
+                  print(rating);
+                },
+              ),
             ),
+            // child: Row(
+            //   children: [
+            //     ...List.generate(
+            //         5,
+            //             (index) => Icon(
+            //           Icons.star_rounded,
+            //           size: 18,
+            //           color: Color(ConstColors.titleColors),
+            //         )),
+            //
+            //   ],
+            // ),
           ),
 
           Row(

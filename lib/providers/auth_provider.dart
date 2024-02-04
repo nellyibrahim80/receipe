@@ -76,6 +76,13 @@ class AuthFirebaseProvider extends ChangeNotifier{
       }
     } catch (e) {OverlayLoadingProgress.stop();}
   }
+  Future<void> UpdateUserProfilePic(BuildContext context,String image) async {
+    var user = await FirebaseAuth.instance.currentUser;
+    try {
+      await user?.updatePhotoURL(image);
+    notifyListeners();
+    }catch(e){print("error in edit profile pic $e");}
+  }
   Future<void> LogIn(BuildContext context) async{
     try {
       print("login fun*************");
