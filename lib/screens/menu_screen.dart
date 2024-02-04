@@ -31,7 +31,7 @@ class _MenuScreenState extends State<MenuScreen> {
                   fit: StackFit.expand,
                   children: [
                     CircleAvatar(
-                      backgroundImage: AssetImage('user/${user?.photoURL}'),
+                      backgroundImage: NetworkImage('${user?.photoURL}'),
                     ),
                     Positioned(
                       bottom: 0,
@@ -53,13 +53,14 @@ class _MenuScreenState extends State<MenuScreen> {
                           if (uploadResult.state == TaskState.success) {
                             try {
                               await user?.updatePhotoURL(
-                                  ref.getDownloadURL().toString());
+                                  await ref.getDownloadURL());
                               setState(() {
 
                               });
-                            }catch(e){print("error in edit profile pic $e");}
+                              print(user?.photoURL);
+                            }catch(e){print("error in edit profile pic$e");}
                             print(
-                                'Profile Picture updated successfully ');
+                                '222222222222222Profile Picture updated successfully ${await ref.getDownloadURL()}  ');
                           }
                         }
 
