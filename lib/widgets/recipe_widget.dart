@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:receipe/widgets/favourite_icon.dart';
 import 'package:receipe/widgets/recipe_details.dart';
 
 import '../models/recipe.dart';
@@ -25,31 +26,7 @@ class _RecipeWidgetState extends State<RecipeWidget> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: InkWell(
-                  onTap: () {
-                    Provider.of<RecipeFireProvider>(context, listen: false)
-                        .addRecipeToFavourite(
-                            widget.recipe!.id!,
-                            !(widget.recipe?.favourite_users_ids?.contains(
-                                    FirebaseAuth.instance.currentUser?.uid) ??
-                                false));
-                  },
-                  child: (widget.recipe?.favourite_users_ids?.contains(
-                              FirebaseAuth.instance.currentUser?.uid) ??
-                          false
-                      ? const Icon(
-                          Icons.favorite_rounded,
-                          size: 30,
-                          color: Colors.red,
-                        )
-                      : const Icon(
-                          Icons.favorite_border_rounded,
-                          size: 30,
-                          color: Colors.grey,
-                        ))),
-            ),
+        FavouriteIconWidget(recipe:widget.recipe),
             Container(
               width: 90,
               height: 80,

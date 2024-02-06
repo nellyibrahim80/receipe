@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:receipe/widgets/favourite_icon.dart';
 import 'package:receipe/widgets/recipe_details.dart';
 
 import '../models/recipe.dart';
@@ -44,10 +45,7 @@ class Recommended extends StatelessWidget {
               trailing: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Icon(
-                    Icons.favorite_border,
-                    color: Color(ConstColors.textInput),
-                  ),
+                   FavouriteIconWidget(recipe:recipe),
                 ],
               ),),
           );
