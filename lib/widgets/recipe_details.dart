@@ -7,7 +7,7 @@ import '../utilities/abstract_colors.dart';
 class RecipeDetails extends StatelessWidget {
   //final int RecipeIndex;
    final double? starsPadding ;
-    final Recipes recipe;
+    final Recipes? recipe;
    RecipeDetails({this.starsPadding,super.key, required this.recipe});
 
   @override
@@ -27,7 +27,7 @@ class RecipeDetails extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Text(
-              recipe.MealType.toString(),
+              recipe!.MealType.toString(),
               style: TextStyle(
                   color: Color(ConstColors.textCyanInput),
                   fontSize: 12),
@@ -41,7 +41,7 @@ class RecipeDetails extends StatelessWidget {
               SizedBox(
                 width: 150,
                 child: Text(
-                  recipe.title.toString(),
+                  recipe!.title.toString(),
                   overflow: TextOverflow.ellipsis,
                   maxLines: 1,
                 ),
@@ -53,7 +53,7 @@ class RecipeDetails extends StatelessWidget {
             child: Align( alignment: Alignment.topLeft,
 
               child: RatingBar.builder(
-                initialRating: recipe.rate!=null ?recipe.rate!.toDouble() :5,
+                initialRating: recipe?.rate!=null ?recipe?.rate!.toDouble() ?? 0:5,
                 minRating: 1,
                 direction: Axis.horizontal,
                 allowHalfRating: true,
@@ -86,7 +86,7 @@ class RecipeDetails extends StatelessWidget {
 
           Row(
             children: [
-              Text('${recipe.calories} Calories',
+              Text('${recipe?.calories} Calories',
                   style: TextStyle(
                       color: Color(ConstColors.titleColors),
                       fontSize: 10)),
@@ -101,7 +101,7 @@ class RecipeDetails extends StatelessWidget {
                 Icon(
                     Icons.access_time_rounded,
                     color: Color(ConstColors.textInput),size: 15),
-                Text(' ${recipe.prepare} min',
+                Text(' ${recipe?.prepare} min',
                     style: TextStyle(
                         color: Color(ConstColors.textInput),
                         fontSize: 10)),
@@ -109,7 +109,7 @@ class RecipeDetails extends StatelessWidget {
                 Icon(
                     Icons.room_service_outlined,
                     color: Color(ConstColors.textInput),size: 15),
-                Text(' ${recipe.serving} ٍserving',
+                Text(' ${recipe?.serving} ٍserving',
                     style: TextStyle(
                         color: Color(ConstColors.textInput),
                         fontSize: 10)),

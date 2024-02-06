@@ -11,10 +11,12 @@ class Recipes {
   List<String>? ingredient;
   List<String>? favourite_users_ids;
   Map<String,String>? direction;
+  bool? is_fresh;
 
   Recipes.fromJson(Map<String, dynamic> data,[String? docId]) {
     id=docId;
     title = data["title"];
+    is_fresh= data["is_fresh"];
     image = data["image"];
     MealType = data["MealType"];
     calories = data["calories"];
@@ -36,6 +38,7 @@ class Recipes {
 
   Map<String, dynamic> toJson() {
     return {
+      "is_fresh":is_fresh,
       "title": title,
       "image": image,
       "MealType": MealType,

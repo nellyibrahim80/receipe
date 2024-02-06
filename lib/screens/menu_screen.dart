@@ -4,8 +4,13 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:overlay_kit/overlay_kit.dart';
+import 'package:provider/provider.dart';
+import 'package:receipe/providers/auth_provider.dart';
 import 'package:receipe/screens/favourit.dart';
+import 'package:receipe/screens/home_page.dart';
 import 'package:receipe/screens/ingredient.dart';
+
+import '../widgets/menuItem.dart';
 
 class MenuScreen extends StatefulWidget {
   const MenuScreen({super.key});
@@ -18,9 +23,11 @@ class _MenuScreenState extends State<MenuScreen> {
   @override
   Widget build(BuildContext context) {
     var user = FirebaseAuth.instance.currentUser;
+
     return SafeArea(
       child: Scaffold(
         body: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             UserAccountsDrawerHeader(
               accountName: Text("${user?.displayName}"),
@@ -37,34 +44,34 @@ class _MenuScreenState extends State<MenuScreen> {
                       bottom: 0,
                       right: 0,
                       child: InkWell(
-                        onTap: () async { OverlayLoadingProgress.start();
+                        onTap: () async {
+                          OverlayLoadingProgress.start();
 
-                        var imageResult = await FilePicker.platform
-                            .pickFiles(type: FileType.image, withData: true);
+                          var imageResult = await FilePicker.platform
+                              .pickFiles(type: FileType.image, withData: true);
 
-                        var ref = FirebaseStorage.instance
-                            .ref('user/${imageResult?.files.first.name}');
+                          var ref = FirebaseStorage.instance
+                              .ref('user/${imageResult?.files.first.name}');
 
-                        if (imageResult?.files.first.bytes != null) {
-                          var uploadResult = await ref.putData(
-                              imageResult!.files.first.bytes!,
-                              SettableMetadata(contentType: 'image/png'));
+                          if (imageResult?.files.first.bytes != null) {
+                            var uploadResult = await ref.putData(
+                                imageResult!.files.first.bytes!,
+                                SettableMetadata(contentType: 'image/png'));
 
-                          if (uploadResult.state == TaskState.success) {
-                            try {
-                              await user?.updatePhotoURL(
-                                  await ref.getDownloadURL());
-                              setState(() {
-
-                              });
-                              print(user?.photoURL);
-                            }catch(e){print("error in edit profile pic$e");}
-                            print(
-                                '222222222222222Profile Picture updated successfully ${await ref.getDownloadURL()}  ');
+                            if (uploadResult.state == TaskState.success) {
+                              try {
+                                await user?.updatePhotoURL(
+                                    await ref.getDownloadURL());
+                                setState(() {});
+                                print(user?.photoURL);
+                              } catch (e) {
+                                print("error in edit profile pic $e");
+                              }
+                              print('Profile Picture updated successfully  ');
+                            }
                           }
-                        }
 
-                        OverlayLoadingProgress.stop();
+                          OverlayLoadingProgress.stop();
                         },
                         child: Container(
                           child: Icon(
@@ -78,39 +85,35 @@ class _MenuScreenState extends State<MenuScreen> {
                 ),
               ),
             ),
-            ListTile(
+            MenuItem(LinkScreen: HomePage(), menutitle: 'Home',menuIcon: Icons.home),
+            MenuItem(LinkScreen: FavouritesPage(), menutitle: 'Favourites',menuIcon: Icons.favorite_border),
+            MenuItem(LinkScreen: IngredientPage(), menutitle: 'Ingredients',menuIcon: Icons.food_bank_outlined),
+      SizedBox(
+        width: 180,
+            child:ListTile(
               title: TextButton(
-                child: Text(
-                  "Ingredient",
-                  style: TextStyle(color: Colors.black87),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Sign Out",
+                      style: TextStyle(color: Colors.black87),
+                    ),
+                  ],
                 ),
                 onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => IngredientPage()));
+                  Provider.of<AuthFirebaseProvider>(context, listen: false)
+                      .SignOut(context);
                 },
               ),
-              leading: Icon(Icons.food_bank_outlined),
+              leading: Icon(Icons.logout),
             ),
-            ListTile(
-              title: TextButton(
-                child: Text(
-                  "Favourit",
-                  style: TextStyle(color: Colors.black87),
-                ),
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => FavouritesPage()));
-                },
-              ),
-              leading: Icon(Icons.favorite),
-            ),
+      )
           ],
         ),
       ),
     );
   }
+
+ 
 }
