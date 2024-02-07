@@ -9,10 +9,13 @@ import '../widgets/ToastMessage.dart';
 
 class RecipeFireProvider extends ChangeNotifier {
   List<Recipes> recipeList = [];
-  List<Recipes>? _freshRecipesList=[];
-  List<Recipes>? get freshRecipesList => _freshRecipesList;
-  List<Recipes>? _recommendedRecipesList=[];
-  List<Recipes>? get recommendedRecipesList => _recommendedRecipesList;
+  List<Recipes> freshRecipesList = [];
+  List<Recipes> displayRecipes = [];
+
+  // List<Recipes> _freshRecipesList=[];
+  // List<Recipes>? get freshRecipesList => _freshRecipesList;
+  List<Recipes> _recommendedRecipesList = [];
+  List<Recipes> get recommendedRecipesList => _recommendedRecipesList;
 
   Future<void> getDBRecipe() async {
     try {
@@ -29,46 +32,43 @@ class RecipeFireProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> getFreshRecipes() async {
+  Future<void> getDefinedRecipes(String collectionName, String whereCriteria,
+      dynamic condition, List<Recipes> targetList) async {
+    dynamic result;
     try {
-      var result = await FirebaseFirestore.instance
-          .collection('recipes')
-          .where('is_fresh', isEqualTo: true)
-          .limit(5)
-          .get();
+      OverlayLoadingProgress.start();
+      dynamic query;
+      QuerySnapshot<Map<String, dynamic>> result;
+      var firebaseIns = FirebaseFirestore.instance.collection(collectionName);
+
+      if (whereCriteria == "recipeId") {
+        query = firebaseIns.doc(condition.toString());
+      }
+      if (condition != "") {
+        query = firebaseIns.where(whereCriteria, isEqualTo: condition);
+      }
+
+      (whereCriteria == "all" )?result = await firebaseIns.get():result = await (query as Query<Map<String, dynamic>>).limit(5).get();
+    
+
+      print(result);
 
       if (result.docs.isNotEmpty) {
-        _freshRecipesList = List<Recipes>.from(
+        // targetList = List<Recipes>.from(
+        //   result.docs.map((doc) => Recipes.fromJs++on(doc.data(), doc.id)));
+        targetList.clear();
+        targetList.addAll(
             result.docs.map((doc) => Recipes.fromJson(doc.data(), doc.id)));
       } else {
-        _freshRecipesList = [];
+        targetList = [];
       }
       notifyListeners();
+      OverlayLoadingProgress.stop();
     } catch (e) {
-      _freshRecipesList = [];
-      notifyListeners();
-    }
-  }
-
-  Future<void> getRecommandedRecipes() async {
-    try {
-      var result = await FirebaseFirestore.instance
-          .collection('recipes')
-          .where('is_fresh', isEqualTo: false)
-          .limit(5)
-          .get();
-      print(result.docs);
-      if (result.docs.isNotEmpty) {
-        _recommendedRecipesList = List<Recipes>.from(
-            result.docs.map((doc) => Recipes.fromJson(doc.data(), doc.id)));
-      } else {
-        _recommendedRecipesList = [];
-      }
-      notifyListeners();
-    } catch (e) {
-      print("error in recomended list $e");
-      _recommendedRecipesList = [];
-      notifyListeners();
+      print("error in $targetList ------- $e");
+      targetList = [];
+      targetList.clear();
+      //   notifyListeners();
     }
   }
 
@@ -104,13 +104,28 @@ class RecipeFireProvider extends ChangeNotifier {
           .collection('recipes')
           .doc(recipeId)
           .get();
-      Recipes? updatedRecipe;
+      Recipes updatedRecipe;
       if (result.data() != null) {
         updatedRecipe = Recipes.fromJson(result.data()!, result.id);
       } else {
         return;
       }
-      var recipesListIndex =
+      void updatelist(List<Recipes> listToUpdate) {
+        var recipesListIndex =
+            listToUpdate.indexWhere((recipe) => recipe.id == recipeId);
+
+        if (recipesListIndex != -1) {
+          listToUpdate.removeAt(recipesListIndex);
+          listToUpdate.insert(recipesListIndex, updatedRecipe);
+          print("Done for $listToUpdate");
+        }
+      }
+
+      updatelist(recipeList);
+      updatelist(freshRecipesList!);
+      updatelist(recommendedRecipesList!);
+      updatelist(displayRecipes!);
+      /* var recipesListIndex =
       recipeList?.indexWhere((recipe) => recipe.id == recipeId);
 
       if (recipesListIndex != -1) {
@@ -134,7 +149,7 @@ class RecipeFireProvider extends ChangeNotifier {
         recommendedRecipesList?.insert(
             recIndex!, updatedRecipe);
       }
-
+*/
       notifyListeners();
     } catch (e) {
       print('$e>>>>>error in update recipe');

@@ -6,6 +6,7 @@ abstract class ConstColors {
   static const int blackC=0xff000000; //black
   static const int textInput=0xffabafbe; //dark grey
   static const int bgInput=0xfff7f8fc; //light grey
+  // static const int bgInput=0xffd7d7d7; //light grey
   static const int textCyanInput=0xff1F95B3; //cyan
 
 }

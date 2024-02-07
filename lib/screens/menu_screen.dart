@@ -9,8 +9,11 @@ import 'package:receipe/providers/auth_provider.dart';
 import 'package:receipe/screens/favourit.dart';
 import 'package:receipe/screens/home_page.dart';
 import 'package:receipe/screens/ingredient.dart';
+import 'package:receipe/utilities/abstract_colors.dart';
+import 'package:receipe/widgets/recipe_from_query.dart';
 
 import '../widgets/menuItem.dart';
+import 'recipe_list_templete.dart';
 
 class MenuScreen extends StatefulWidget {
   const MenuScreen({super.key});
@@ -26,10 +29,12 @@ class _MenuScreenState extends State<MenuScreen> {
 
     return SafeArea(
       child: Scaffold(
+        backgroundColor:  Color(ConstColors.bgInput),
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             UserAccountsDrawerHeader(
+              decoration: BoxDecoration(color:  Color(ConstColors.bgInput),),
               accountName: Text("${user?.displayName}"),
               accountEmail: Text("${user?.email}"),
               currentAccountPicture: InkWell(
@@ -84,9 +89,9 @@ class _MenuScreenState extends State<MenuScreen> {
                   ],
                 ),
               ),
-            ),
+            ), 
             MenuItem(LinkScreen: HomePage(), menutitle: 'Home',menuIcon: Icons.home),
-            MenuItem(LinkScreen: FavouritesPage(), menutitle: 'Favourites',menuIcon: Icons.favorite_border),
+            MenuItem(LinkScreen:ListRecipesTemplete(listRecipesWidget:  FavouritesPage(whereCriteria: "favourite_users_ids", collectionName: 'recipes',), pageTitle: "Favourite" ,), menutitle: 'Favourites',menuIcon: Icons.favorite_border),
             MenuItem(LinkScreen: IngredientPage(), menutitle: 'Ingredients',menuIcon: Icons.food_bank_outlined),
       SizedBox(
         width: 180,

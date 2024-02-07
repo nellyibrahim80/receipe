@@ -53,6 +53,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return OverlayKit(
+      appPrimaryColor:Color(ConstColors.titleColors) ,
       child: MaterialApp(
         title: 'Recipe',
         theme: ThemeData(
