@@ -31,7 +31,7 @@ class RecipeDetails extends StatelessWidget {
               recipe.MealType.toString(),
               style: TextStyle(
                   color: Color(ConstColors.textCyanInput),
-                  fontSize: (details ?? false) ? 18 : 12),
+                  fontSize:12),
             ),
           ],
         ),

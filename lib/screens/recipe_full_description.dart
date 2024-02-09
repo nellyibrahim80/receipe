@@ -47,71 +47,86 @@ class _RecipesDesciptionState extends State<RecipesDesciption> {
                   ? const CircularProgressIndicator()
                   : (recProvider.displayRecipes.isEmpty ?? false)
                       ? const Text('No Recipe Found')
-                      :Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-          Row(
-            children: [
-              SizedBox(
-                width: 350,
-                child: HeaderBlack(
-                    HeaderBlackTitle: widget.recipe!.title.toString()),
-              ),
-              FavouriteIconWidget(recipe: recProvider.displayRecipes.first),
-            ],
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(5.0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Text('${widget.recipe?.calories} Calories',
-                            style: const TextStyle(
-                                color: Color(ConstColors.titleColors),
-                                fontSize: 10)),
-                      ],
-                    ),
-                    Padding(
-                        padding: EdgeInsets.all(5),
-                        child: StarsRate(
-                            recipeRate: widget.recipe.rate != null
-                                ? widget.recipe?.rate!.toDouble() ?? 0
-                                : 5)),
-                    SmallGrey(
-                      txt: 'min',
-                      usedIcon: Icons.access_time_rounded,
-                      usedValue: ' ${widget.recipe?.prepare}',
-                    ),
-                    SizedBox(
-                      width: 15,
-                    ),
-                    SmallGrey(
-                      txt: 'ٍserving',
-                      usedIcon: Icons.room_service_outlined,
-                      usedValue: ' ${widget.recipe.serving}',
-                    ),
-                  ],
-                ),
-              ),
-              Container(
-                //color: Colors.red,
-                child: Image.asset(
-                  "assets/images/${widget.recipe?.image}",
-                  width: 250, // Ensure that this value does not exceed maxWidth
-
-                  //fit: BoxFit.cover,
-                ),
-              ),
-            ],
-          ),
-          IngredientList(),
-        ]),
+                      :Padding(
+                        padding: const EdgeInsets.all(11.0),
+                        child: Column( 
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [ 
+                                      Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      widget.recipe.MealType.toString(),
+                                      style: TextStyle(
+                                          color: Color(ConstColors.textCyanInput),
+                                          fontSize:18),
+                                    ),
+                                  ],
+                                ),
+                                  Row(
+                                    children: [
+                                     
+                                      SizedBox(
+                                        width: 350,
+                                        child: HeaderBlack(
+                                            HeaderBlackTitle: widget.recipe!.title.toString()),
+                                      ),
+                                      FavouriteIconWidget(recipe: recProvider.displayRecipes.first),
+                                    ],
+                                  ),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.all(5.0),
+                                        child: Column(
+                                          mainAxisAlignment: MainAxisAlignment.start,
+                                          children: [
+                                            Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Text('${widget.recipe?.calories} Calories',
+                              style: const TextStyle(
+                                  color: Color(ConstColors.titleColors),
+                                  fontSize: 10)),
+                        ],
+                                            ),
+                                            Padding(
+                          padding: EdgeInsets.all(5),
+                          child: StarsRate(
+                              recipeRate: widget.recipe.rate != null
+                                  ? widget.recipe?.rate!.toDouble() ?? 0
+                                  : 5)),
+                                            SmallGrey(
+                        txt: 'min',
+                        usedIcon: Icons.access_time_rounded,
+                        usedValue: ' ${widget.recipe?.prepare}',
+                                            ),
+                                            SizedBox(
+                        width: 15,
+                                            ),
+                                            SmallGrey(
+                        txt: 'ٍserving',
+                        usedIcon: Icons.room_service_outlined,
+                        usedValue: ' ${widget.recipe.serving}',
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      Container(
+                                        //color: Colors.red,
+                                        child: Image.asset(
+                                          "assets/images/${widget.recipe?.image}",
+                                          width: 250, // Ensure that this value does not exceed maxWidth
+                        
+                                          //fit: BoxFit.cover,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  IngredientList(),
+                                ]),
+                      ),
       );
     });
   }
