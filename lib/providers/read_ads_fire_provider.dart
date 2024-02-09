@@ -38,7 +38,7 @@ class ReadFireAdsProvider extends ChangeNotifier {
       if (firestoreResult.docs.isNotEmpty) {
         adsList = List<Advs>.from(
             firestoreResult.docs.map((e) => Advs.fromJson(e.data(), e.id)));
-        print("------------------------------------$adsList.");
+       // print("------------------------------------$adsList.");
       }
     } catch (e) {
       print(e);

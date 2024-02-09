@@ -59,7 +59,7 @@ class _AdvCarouselState extends State<AdvCarousel> {
                                 })*/
                             //items: advList.map((Advs) {
                             items: value.adsList?.map((Advs) {
-                              print("************************${value.adsList}");
+                             // print("************************${value.adsList}");
                               return Builder(
                                 builder: (BuildContext context) {
                                   return Container(

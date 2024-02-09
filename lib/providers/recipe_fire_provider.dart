@@ -16,6 +16,7 @@ class RecipeFireProvider extends ChangeNotifier {
   // List<Recipes>? get freshRecipesList => _freshRecipesList;
   List<Recipes> _recommendedRecipesList = [];
   List<Recipes> get recommendedRecipesList => _recommendedRecipesList;
+  Recipes? openedRecipe;
 
   Future<void> getDBRecipe() async {
     try {
@@ -41,26 +42,37 @@ class RecipeFireProvider extends ChangeNotifier {
       QuerySnapshot<Map<String, dynamic>> result;
       var firebaseIns = FirebaseFirestore.instance.collection(collectionName);
 
-      if (whereCriteria == "recipeId") {
-        query = firebaseIns.doc(condition.toString());
+      if (whereCriteria == "recipeID") {
+        query = await firebaseIns.doc(condition.toString()).get();
+        if (query.data() != null) {
+          openedRecipe = Recipes.fromJson(query.data()!, query.id);
+          targetList.clear();
+          targetList.add(openedRecipe!);
+          print(targetList);
+        } else {
+          return;
+        }
       }
-      if (condition != "") {
+     
+     else { 
+        if (condition != "" ) {
         query = firebaseIns.where(whereCriteria, isEqualTo: condition);
       }
+        (whereCriteria == "all")
+            ? result = await firebaseIns.get()
+            : result =
+                await (query as Query<Map<String, dynamic>>).limit(5).get();
 
-      (whereCriteria == "all" )?result = await firebaseIns.get():result = await (query as Query<Map<String, dynamic>>).limit(5).get();
-    
+        print(result);
 
-      print(result);
-
-      if (result.docs.isNotEmpty) {
-        // targetList = List<Recipes>.from(
-        //   result.docs.map((doc) => Recipes.fromJs++on(doc.data(), doc.id)));
-        targetList.clear();
-        targetList.addAll(
-            result.docs.map((doc) => Recipes.fromJson(doc.data(), doc.id)));
-      } else {
-        targetList = [];
+        if (result.docs.isNotEmpty) {
+          // targetList = List<Recipes>.from(
+          //   result.docs.map((doc) => Recipes.fromJs++on(doc.data(), doc.id)));
+          targetList.clear();
+          targetList.addAll(
+              result.docs.map((doc) => Recipes.fromJson(doc.data(), doc.id)));
+          print(targetList);
+        }
       }
       notifyListeners();
       OverlayLoadingProgress.stop();

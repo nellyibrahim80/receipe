@@ -79,7 +79,7 @@ class _MenuScreenState extends State<MenuScreen> {
                           OverlayLoadingProgress.stop();
                         },
                         child: Container(
-                          child: Icon(
+                          child:const Icon(
                             Icons.edit,
                             color: Colors.black,
                           ),

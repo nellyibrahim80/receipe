@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 class Recipes {
   String? id;
   String? title;
