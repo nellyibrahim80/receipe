@@ -9,12 +9,26 @@ import '../widgets/ToastMessage.dart';
 
 class IngredientFireProvider extends ChangeNotifier {
   List<Ingredient> ingredientList = [];
-
-  Future<void> getIngredient() async {
+  String? whereCriteria;
+  dynamic query;
+  late QuerySnapshot<Map<String, dynamic>> IngredientDbList;
+  Future<void> getIngredient(String s, {whereCriteria}) async {
     try {
-      var IngredientDbList =
-          await FirebaseFirestore.instance.collection("ingredient").get();
-
+      var firebaseIns =
+          await FirebaseFirestore.instance.collection("ingredient");
+      /*if (whereCriteria != null) {
+        var IngredientDbList = await firebaseIns
+          .where(whereCriteria,
+                  arrayContains: FirebaseAuth.instance.currentUser!.uid)
+              .get();
+      } else {
+        var IngredientDbList = await firebaseIns.get();
+      }
+*/
+      (whereCriteria == "user_ids")
+            ? IngredientDbList =await (query as Query<Map<String, dynamic>>).where(whereCriteria,
+                  arrayContains: FirebaseAuth.instance.currentUser!.uid).get()
+            : IngredientDbList = await firebaseIns.get();
       if (IngredientDbList.docs.isNotEmpty) {
         ingredientList = List<Ingredient>.from(IngredientDbList.docs
             .map((e) => Ingredient.fromJson(e.data(), e.id)));
@@ -22,7 +36,7 @@ class IngredientFireProvider extends ChangeNotifier {
         print("-----------------------------------");
       }
     } catch (e) {
-      print(e);
+      print('---------error in ingredint provider ------$e');
     }
     notifyListeners();
   }
@@ -49,7 +63,7 @@ class IngredientFireProvider extends ChangeNotifier {
         });
       }
       OverlayLoadingProgress.stop();
-      getIngredient();
+      getIngredient('');
     } catch (e) {
       OverlayLoadingProgress.stop();
       OverlayToastMessage.show(

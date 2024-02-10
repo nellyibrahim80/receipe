@@ -5,7 +5,6 @@ import 'package:receipe/screens/recipe_list_templete.dart';
 import 'package:receipe/utilities/abstract_colors.dart';
 import 'package:receipe/widgets/recipe_from_query.dart';
 
-import '../screens/see_all_recipe.dart';
 
 class SeeAllHeader extends StatelessWidget {
   final String HeaderTitle;

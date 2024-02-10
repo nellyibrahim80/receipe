@@ -1,6 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:get_it/get_it.dart';
+
 import 'package:overlay_kit/overlay_kit.dart';
 import 'package:provider/provider.dart';
 
@@ -9,9 +9,9 @@ import 'package:receipe/providers/ingredient_provider.dart';
 import 'package:receipe/providers/read_ads_fire_provider.dart';
 import 'package:receipe/providers/recipe_fire_provider.dart';
 import 'package:receipe/screens/splash_screen.dart';
-import 'package:receipe/services/shared_pref.dart';
+
 import 'package:receipe/utilities/abstract_colors.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+
 
 import 'firebase_options.dart';
 
