@@ -18,20 +18,7 @@ class RecipeFireProvider extends ChangeNotifier {
   List<Recipes> get recommendedRecipesList => _recommendedRecipesList;
   Recipes? openedRecipe;
 
-  Future<void> getDBRecipe() async {
-    try {
-      var recipeDBinstance =
-          await FirebaseFirestore.instance.collection("recipes").get();
-      if (recipeDBinstance.docs.isNotEmpty) {
-        recipeList = List<Recipes>.from(
-            recipeDBinstance.docs.map((e) => Recipes.fromJson(e.data(), e.id)));
-      }
-    } catch (e) {
-      print("----getDBRecipe Error----$e");
-    }
 
-    notifyListeners();
-  }
 
   Future<void> getDefinedRecipes(String collectionName, String whereCriteria,
       dynamic condition, List<Recipes> targetList) async {

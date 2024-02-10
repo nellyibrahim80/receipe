@@ -17,7 +17,7 @@ class _ingredientListState extends State<IngredientList> {
   @override
   void initState() {
     // TODO: implement initState
-    Provider.of<IngredientFireProvider>(context, listen: false).getIngredient('user_ids');
+    Provider.of<IngredientFireProvider>(context, listen: false).getIngredient( 'user_ids');
     super.initState();
   }
 
@@ -35,61 +35,101 @@ class _ingredientListState extends State<IngredientList> {
 
     return Consumer<IngredientFireProvider>(
       builder: (context, ingProvValue, _) { 
-         
+         bool isExsist = false;
+          var userIngredientsTitles =
+                          ingProvValue.ingredientList .map((e) => e.name).toList();
+                                          Widget checkIngredientWidget(String recipeIngredient) {
+                        bool isExsist = false;
+                        for (var userIngredientsTitle in userIngredientsTitles) {
+                          if (recipeIngredient.contains(userIngredientsTitle!.toLowerCase())) {
+                            isExsist = true;
+                            break;
+                          } else {
+                            isExsist = false;
+                          }
+                        }
+                        
+                         return (isExsist)?  Icon(Icons.check_circle_outline,color: Colors.green)
+                                            : Icon(Icons.cancel_outlined,color: Colors.red );
+                       Icon(Icons.check);
+                  
+                        }
+                              // 
         return Column(
           children: [
             ingProvValue.ingredientList == null
                 ? const CircularProgressIndicator()
                 : (ingProvValue.ingredientList?.isEmpty ?? false)
                     ? const Text('No Ingredient Found')
-                    : SizedBox(
-                        height: 60,
-                        child: ListView.builder(
-                          scrollDirection: Axis.horizontal,
-                          itemCount: ingProvValue.ingredientList?.length,
-                          itemBuilder: (context, index) {
-                            var userIngredientsTitles =
-                      ingProvValue.ingredientList .map((e) => e.name).toList();
-                  Widget checkIngredientWidget(String recipeIngredient) {
-                    bool isExsist = false;
-                    for (var userIngredientsTitle in userIngredientsTitles) {
-                      if (recipeIngredient.contains(userIngredientsTitle!)) {
-                        isExsist = true;
-                        break;
-                      } else {
-                        isExsist = false;
-                      }
-                    }
-                    return Container();
-                    }
-                            var inglist = ingProvValue.ingredientList?[index];
-                            
-                            print(
-                                getTextWidth(inglist?.name.toString() ?? "?"));
-                            return SizedBox(
-                              width:
-                                  getTextWidth(inglist?.name.toString() ?? "?")
-                                      .toDouble(),
-                              child: ListTile(
-                                contentPadding: EdgeInsets.all(0),
-                                tileColor: Color(ConstColors.bgInput),
-                                leading: SizedBox(
-                                  width: 20,
-                                  child: (inglist?.user_ids?.contains(
-                                              FirebaseAuth
-                                                  .instance.currentUser?.uid) ??
-                                          false)
-                                      ? Icon(Icons.check_circle_outline,color: Colors.green)
-                                      : Icon(Icons.cancel_outlined,color: Colors.red ),
-                                ),
-                                title: Text(
-                                  "${inglist?.name.toString() ?? "?"}",
-                                ),
+                    : Column(
+                      children: [
+
+                        const Padding(
+                          padding: EdgeInsets.only(top:20.0),
+                          child: Row(
+                                children: [
+                                  Text(
+                                    "Ingredients",
+                                    style: TextStyle(
+                                        fontSize: 20, fontWeight: FontWeight.w700),
+                                  ),
+                                ],
                               ),
-                            );
-                          },
-                        ),
-                      )
+                        ),Column(
+                              children:  widget.recipeIngredientList
+                              ?.map((e) => Row(
+                                    children: [
+                                      SizedBox(
+                                        width: 365,
+                                        child: ListTile(
+                                          contentPadding: EdgeInsets.all(0),
+                                          leading:   SizedBox(
+                                        width: 50,
+                                        child:checkIngredientWidget(e)
+                                          ),
+                                          title: Text(e)),
+                                      ),
+                                      
+                                     
+                                    ],
+                                  ))
+                              .toList() ?? []
+                            ),
+                      /*  SizedBox(
+                            height: 60,
+                            child: ListView.builder(
+                              scrollDirection: Axis.horizontal,
+                              itemCount: ingProvValue.ingredientList?.length,
+                              itemBuilder: (context, index) {
+                               
+                                var userInglist = ingProvValue.ingredientList[index];
+                                
+                                return SizedBox(
+                                  width:
+                                      getTextWidth(userInglist?.name.toString() ?? "?")
+                                          .toDouble(),
+                                  child: ListTile(
+                                    contentPadding: EdgeInsets.all(0),
+                                    tileColor: Color(ConstColors.bgInput),
+                                    leading: SizedBox(
+                                      width: 20,
+                                      child: (userInglist?.user_ids?.contains(
+                                                  FirebaseAuth
+                                                      .instance.currentUser?.uid) ??
+                                              false)
+                                          ? Icon(Icons.check_circle_outline,color: Colors.green)
+                                          : Icon(Icons.cancel_outlined,color: Colors.red ),
+                                    ),
+                                    title: Text(
+                                      "${userInglist?.name.toString() ?? "?"}",
+                                    ),
+                                  ),
+                                );
+                              },
+                            ),
+                          ),
+                     */ ],
+                    )
           ],
         );
       },

@@ -11,8 +11,9 @@ class IngredientFireProvider extends ChangeNotifier {
   List<Ingredient> ingredientList = [];
   String? whereCriteria;
   dynamic query;
-  late QuerySnapshot<Map<String, dynamic>> IngredientDbList;
-  Future<void> getIngredient(String s, {whereCriteria}) async {
+    dynamic IngredientDbList;
+ // QuerySnapshot<Map<String, dynamic>> IngredientDbList;
+  Future<void> getIngredient(String whereCriteria) async {
     try {
       var firebaseIns =
           await FirebaseFirestore.instance.collection("ingredient");
@@ -24,11 +25,21 @@ class IngredientFireProvider extends ChangeNotifier {
       } else {
         var IngredientDbList = await firebaseIns.get();
       }
-*/
+
       (whereCriteria == "user_ids")
             ? IngredientDbList =await (query as Query<Map<String, dynamic>>).where(whereCriteria,
                   arrayContains: FirebaseAuth.instance.currentUser!.uid).get()
             : IngredientDbList = await firebaseIns.get();
+*/
+            if (whereCriteria == "user_ids") {
+    query = firebaseIns.where(
+      whereCriteria,
+      arrayContains: FirebaseAuth.instance.currentUser!.uid,
+    );
+    IngredientDbList = await query.get();
+  } else {
+    IngredientDbList = await firebaseIns.get();
+  }  
       if (IngredientDbList.docs.isNotEmpty) {
         ingredientList = List<Ingredient>.from(IngredientDbList.docs
             .map((e) => Ingredient.fromJson(e.data(), e.id)));

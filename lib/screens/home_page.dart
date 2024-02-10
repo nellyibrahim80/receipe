@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
 
 import 'package:provider/provider.dart';
+import 'package:receipe/screens/recipe_full_description.dart';
 import 'package:receipe/widgets/Search.dart';
 
 import 'package:receipe/widgets/recipe_widget.dart';
@@ -45,7 +46,7 @@ class _HomePageState extends State<HomePage> {
     // TODO: implement initState
 
     Provider.of<ReadFireAdsProvider>(listen: false, context).getAdsFromFire();
-    Provider.of<RecipeFireProvider>(listen: false, context).getDBRecipe();
+    //Provider.of<RecipeFireProvider>(listen: false, context).getDBRecipe();
     //Provider.of<RecipeFireProvider>(listen: false, context).getFreshRecipes();
     //Provider.of<RecipeFireProvider>(listen: false, context).getRecommandedRecipes();
  Provider.of<RecipeFireProvider>(context, listen: false).getDefinedRecipes("recipes", "is_fresh", false,Provider.of<RecipeFireProvider>(context, listen: false).recommendedRecipesList);
@@ -137,7 +138,7 @@ class _HomePageState extends State<HomePage> {
                           height: 210,
                           child: ListView.builder(
                             itemBuilder: (context, index) {
-                              print("${index}????=====?????????????");
+                            
                               Recipes recipe = Rvalue.freshRecipesList![index];
 
                               return SizedBox(
@@ -154,9 +155,15 @@ class _HomePageState extends State<HomePage> {
                                     color: Color(ConstColors.bgInput),
                                     elevation: 0,
                                     //shadowColor: Colors.white,
-                                    child: RecipeWidget(
-                                      index: index,
-                                      recipe: recipe,
+                                    child: InkWell(
+                                        onTap: (){  Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) =>RecipesDesciption(recipe: recipe) ));},
+                                      child: RecipeWidget(
+                                        index: index,
+                                        recipe: recipe,
+                                      ),
                                     ),
                                   ),
                                 ),

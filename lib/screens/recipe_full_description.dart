@@ -28,13 +28,15 @@ class _RecipesDesciptionState extends State<RecipesDesciption> {
         "recipeID",
         widget.recipe.id,
         Provider.of<RecipeFireProvider>(context, listen: false).displayRecipes);
-    Provider.of<IngredientFireProvider>(context, listen: false).getIngredient('user_ids');
+    Provider.of<IngredientFireProvider>(context, listen: false)
+        .getIngredient('user_ids');
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return Consumer<RecipeFireProvider>(builder: (context, recProvider, child) {
+      Divider line= Divider(color:Color.fromARGB(255, 227, 227, 227),);
       // Recipes refRecipe = recProvider.displayRecipes.first;
       return Scaffold(
         appBar: AppBar(),
@@ -43,8 +45,8 @@ class _RecipesDesciptionState extends State<RecipesDesciption> {
             : (recProvider.displayRecipes.isEmpty ?? false)
                 ? const Text('No Recipe Found')
                 : SingleChildScrollView(
-                  child: Padding(
-                      padding: const EdgeInsets.all(11.0),
+                    child: Padding(
+                      padding: const EdgeInsets.all(21.0),
                       child: Column(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
@@ -60,9 +62,10 @@ class _RecipesDesciptionState extends State<RecipesDesciption> {
                               ],
                             ),
                             Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 SizedBox(
-                                  width: 340,
+                                  width: 315,
                                   child: HeaderBlack(
                                       HeaderBlackTitle:
                                           widget.recipe!.title.toString()),
@@ -72,92 +75,127 @@ class _RecipesDesciptionState extends State<RecipesDesciption> {
                               ],
                             ),
                             Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Padding(
-                                  padding: const EdgeInsets.all(5.0),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                              '${widget.recipe?.calories} Calories',
-                                              style: const TextStyle(
-                                                  color: Color(
-                                                      ConstColors.titleColors),
-                                                  fontSize: 10)),
-                                        ],
-                                      ),
-                                      Padding(
-                                          padding: EdgeInsets.all(5),
-                                          child: StarsRate(
-                                              recipeRate:
-                                                  widget.recipe.rate != null
-                                                      ? widget.recipe.rate!
-                                                              .toDouble() ??
-                                                          0
-                                                      : 5)),
-                                      SmallGrey(
-                                        txt: 'min',
-                                        usedIcon: Icons.access_time_rounded,
-                                        usedValue: ' ${widget.recipe.prepare}',
-                                      ),
-                                      SizedBox(
-                                        width: 15,
-                                      ),
-                                      SmallGrey(
+                                Column(
+                                  crossAxisAlignment:
+                                      CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                            '${widget.recipe?.calories} Calories',
+                                            style: const TextStyle(
+                                                color: Color(
+                                                    ConstColors.titleColors),
+                                                fontSize: 15)),
+                                      ],
+                                    ),
+                                    Padding(
+                                        padding: EdgeInsets.only(
+                                            bottom: 10, top: 10),
+                                        child: StarsRate(
+                                            recipeRate:
+                                                widget.recipe.rate != null
+                                                    ? widget.recipe.rate!
+                                                            .toDouble() ??
+                                                        0
+                                                    : 5)),
+                                   
+                                    SizedBox(
+                                      height: 25,
+                                    ),
+                                    SmallGrey(
+                                      txt: 'min',
+                                      usedIcon: Icons.access_time_rounded,
+                                      usedValue: ' ${widget.recipe.prepare}',
+                                      txtSize: 17,
+                                    ),
+                                   
+                                    Padding(
+                                      padding: const EdgeInsets.only(top:28.0,bottom: 30),
+                                      child: SmallGrey(
                                         txt: 'ٍserving',
                                         usedIcon: Icons.room_service_outlined,
                                         usedValue: ' ${widget.recipe.serving}',
+                                        txtSize: 17,
                                       ),
-                                    ],
-                                  ),
+                                    ),
+                                  ],
                                 ),
-                                Image.asset(
-                                  "assets/images/${widget.recipe?.image}",
-                                  width:
-                                      250, // Ensure that this value does not exceed maxWidth
-                                                  
-                                  //fit: BoxFit.cover,
+                                Padding(
+                                 padding: const EdgeInsets.only(top:20.0,bottom: 30),
+                                  child: Image.asset(
+                                    "assets/images/${widget.recipe?.image}",
+                                    width:
+                                        210, // Ensure that this value does not exceed maxWidth
+                                                              
+                                    //fit: BoxFit.cover,
+                                  ),
                                 ),
                               ],
                             ),
-                            const Row(
-                              children: [
-                                Text(
-                                  "Ingredients",
-                                  style: TextStyle(
-                                      fontSize: 20, fontWeight: FontWeight.w700),
-                                ),
-                              ],
-                            ),Column(
-                              children:  widget.recipe.ingredient
-                              ?.map((e) => Row(
+                            line,
+                               
+                            IngredientList(
+                                recipeIngredientList:
+                                    recProvider.openedRecipe!.ingredient ?? []),
+                                    line,
+                            Padding(
+                              padding: const EdgeInsets.only(top:8.0),
+                              child: const Row(
+                                children: [
+                                  Text(
+                                    "Directions",
+                                    style: TextStyle(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.w700),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Column(
+                              children:
+                                  widget.recipe.direction!.entries.map((entry) {
+                                int? keyAsInt =
+                                    int.tryParse(entry.key.toString());
+                                bool isNumeric = keyAsInt is num;
+                                return Padding(
+                                  //paddin need adjust
+                                  padding: const EdgeInsets.only(top:30.0),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
-                                      Text(e),
-                                     // checkIngredientWidget(e)
+                                      Row(
+                                        children: [
+                                          Icon(
+                                            Icons.circle,
+                                            color:
+                                                Color(ConstColors.titleColors),
+                                            size: 8,
+                                          ),
+                                          Text(
+                                              (isNumeric)
+                                                  ? ' Step ${entry.key.toString()}'
+                                                  : ' ${entry.key.toString()}',
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.bold)),
+                                        ],
+                                      ),
+                                      Text(entry.value.toString()),
                                     ],
-                                  ))
-                              .toList() ?? []
-                            )
-                           
-                          ,
-                            IngredientList(recipeIngredientList:recProvider.openedRecipe!.ingredient ?? []),
-                            const Row(
-                              children: [
-                                Text(
-                                  "Directions",
-                                  style: TextStyle(
-                                      fontSize: 20, fontWeight: FontWeight.w700),
-                                ),
-                              ],
+                                  ),
+                                );
+                              }).toList(),
                             ),
                           ]),
                     ),
-                ),
+                  ),
       );
     });
   }

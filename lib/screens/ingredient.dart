@@ -16,7 +16,7 @@ class _IngredientPageState extends State<IngredientPage> {
   @override
   void initState() {
     // TODO: implement initState
-    Provider.of<IngredientFireProvider>(context, listen: false).getIngredient('');
+    Provider.of<IngredientFireProvider>(context, listen: false).getIngredient( '');
     super.initState();
   }
 
