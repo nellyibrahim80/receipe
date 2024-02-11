@@ -18,8 +18,6 @@ class RecipeFireProvider extends ChangeNotifier {
   List<Recipes> get recommendedRecipesList => _recommendedRecipesList;
   Recipes? openedRecipe;
 
-
-
   Future<void> getDefinedRecipes(String collectionName, String whereCriteria,
       dynamic condition, List<Recipes> targetList) async {
     dynamic result;
@@ -39,12 +37,16 @@ class RecipeFireProvider extends ChangeNotifier {
         } else {
           return;
         }
-      }
-     
-     else { 
-        if (condition != "" ) {
-        query = firebaseIns.where(whereCriteria, isEqualTo: condition);
-      }
+      } else {
+        if (condition != "") {
+          if (whereCriteria == "search") {
+            for (var entry in condition.entries) {
+               query = firebaseIns.where(entry.key, isEqualTo: entry.value);
+            }
+          } else {
+            query = firebaseIns.where(whereCriteria, isEqualTo: condition);
+          }
+        }
         (whereCriteria == "all")
             ? result = await firebaseIns.get()
             : result =
@@ -60,13 +62,17 @@ class RecipeFireProvider extends ChangeNotifier {
               result.docs.map((doc) => Recipes.fromJson(doc.data(), doc.id)));
           print(targetList);
         }
+        else{
+          targetList.clear();
+        }
       }
       notifyListeners();
       OverlayLoadingProgress.stop();
-    } catch (e) {
-      print("error in $targetList ------- $e");
+    } catch (e) { 
       targetList = [];
       targetList.clear();
+      print("error in $targetList ------- $e");
+     
       //   notifyListeners();
     }
   }

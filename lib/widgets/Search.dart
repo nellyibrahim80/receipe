@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:receipe/screens/filter.dart';
+import 'package:receipe/screens/recipe_list_templete.dart';
 
 import '../utilities/abstract_colors.dart';
 
@@ -50,6 +52,7 @@ class _SearchWidgetState extends State<SearchWidget> {
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: InkWell(
+                onTap: (){Navigator.push(context, MaterialPageRoute(builder: (context) => ListRecipesTemplete( pageTitle: "Filter",listRecipesWidget: FilterPage(),)));},
                   child: Image.asset(
                 "assets/Icons/filter.png",
                 height: 35,

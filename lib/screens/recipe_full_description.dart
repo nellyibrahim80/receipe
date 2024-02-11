@@ -36,7 +36,7 @@ class _RecipesDesciptionState extends State<RecipesDesciption> {
   @override
   Widget build(BuildContext context) {
     return Consumer<RecipeFireProvider>(builder: (context, recProvider, child) {
-      Divider line= Divider(color:Color.fromARGB(255, 227, 227, 227),);
+  
       // Recipes refRecipe = recProvider.displayRecipes.first;
       return Scaffold(
         appBar: AppBar(),
@@ -139,21 +139,19 @@ class _RecipesDesciptionState extends State<RecipesDesciption> {
                                 ),
                               ],
                             ),
-                            line,
+                            ConstColors.line,
                                
                             IngredientList(
                                 recipeIngredientList:
                                     recProvider.openedRecipe!.ingredient ?? []),
-                                    line,
-                            Padding(
-                              padding: const EdgeInsets.only(top:8.0),
-                              child: const Row(
+                                    ConstColors.line,
+                           const Padding(
+                              padding:  EdgeInsets.only(top:8.0),
+                              child:  Row(
                                 children: [
                                   Text(
                                     "Directions",
-                                    style: TextStyle(
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.w700),
+                                    style: ConstColors.headerTxtStyle,
                                   ),
                                 ],
                               ),

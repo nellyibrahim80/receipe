@@ -1,7 +1,7 @@
-import 'package:firebase_auth/firebase_auth.dart';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:receipe/models/ingredient.dart';
+
 import 'package:receipe/providers/ingredient_provider.dart';
 import 'package:receipe/utilities/abstract_colors.dart';
 
@@ -70,8 +70,7 @@ class _ingredientListState extends State<IngredientList> {
                                 children: [
                                   Text(
                                     "Ingredients",
-                                    style: TextStyle(
-                                        fontSize: 20, fontWeight: FontWeight.w700),
+                                style: ConstColors.headerTxtStyle,
                                   ),
                                 ],
                               ),
@@ -82,8 +81,13 @@ class _ingredientListState extends State<IngredientList> {
                                       SizedBox(
                                         width: 365,
                                         child: ListTile(
+                                          horizontalTitleGap:0 ,
+                                          minVerticalPadding: 0.0,
+                                          minLeadingWidth: 0.0,
+                                         // tileColor: Colors.red,
                                           contentPadding: EdgeInsets.all(0),
                                           leading:   SizedBox(
+                                         
                                         width: 50,
                                         child:checkIngredientWidget(e)
                                           ),

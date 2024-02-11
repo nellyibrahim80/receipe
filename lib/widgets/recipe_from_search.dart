@@ -7,23 +7,21 @@ import 'package:receipe/providers/recipe_fire_provider.dart';
 import 'package:receipe/widgets/recommended.dart';
 
 
-class RecipeFromQuery extends StatefulWidget {
+class RecipeFromSearch extends StatefulWidget {
    final List<Recipes> Targetrecipe;
-    dynamic? condition;
-    String? whereCriteria;
+   Map<String,dynamic>? condition;
    
-   RecipeFromQuery({super.key, required this.Targetrecipe,this.whereCriteria,this.condition});
-
+   RecipeFromSearch({super.key, required this.Targetrecipe,this.condition});
+ 
   @override
-  State<RecipeFromQuery> createState() => _RecipeFromQueryState();
+  State<RecipeFromSearch> createState() => _RecipeFromSearchState();
 }
 
-class _RecipeFromQueryState extends State<RecipeFromQuery> {
+class _RecipeFromSearchState extends State<RecipeFromSearch> {
     void initState() {
     // TODO: implement initState
- 
-    Provider.of<RecipeFireProvider>(context, listen: false)
-        .getDefinedRecipes("recipes", widget.whereCriteria ?? "all", widget.condition, widget.Targetrecipe);
+ Provider.of<RecipeFireProvider>(context, listen: false).getDefinedRecipes("recipes", "search", widget.condition,widget.Targetrecipe);
+
     super.initState();
   }
   

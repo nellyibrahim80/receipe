@@ -27,7 +27,7 @@ class SeeAllHeader extends StatelessWidget {
         InkWell(
           onTap: (){
             var targetRecipe=Provider.of<RecipeFireProvider>(context, listen: false).displayRecipes;
-            Navigator.push(context, MaterialPageRoute(builder: (context) => ListRecipesTemplete(listRecipesWidget:  RecipeFromQuery(Targetrecipe: targetRecipe,), pageTitle: "Recipee",)));},
+            Navigator.push(context, MaterialPageRoute(builder: (context) => ListRecipesTemplete(listRecipesWidget:  RecipeFromQuery(Targetrecipe: targetRecipe,condition: "",whereCriteria: "all"), pageTitle: "Recipee",)));},
           child: Text("See All",
               style: TextStyle(
                 color: Color(ConstColors.titleColors),
