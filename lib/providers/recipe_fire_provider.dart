@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -11,6 +13,7 @@ class RecipeFireProvider extends ChangeNotifier {
   List<Recipes> recipeList = [];
   List<Recipes> freshRecipesList = [];
   List<Recipes> displayRecipes = [];
+    List<Recipes> mealtypeList = [];
 
   // List<Recipes> _freshRecipesList=[];
   // List<Recipes>? get freshRecipesList => _freshRecipesList;
@@ -41,10 +44,12 @@ class RecipeFireProvider extends ChangeNotifier {
         if (condition != "") {
           if (whereCriteria == "search") {
             for (var entry in condition.entries) {
-               query = firebaseIns.where(entry.key, isEqualTo: entry.value);
+               query = (entry.key=="calories" || entry.key=="prepare") 
+               ?firebaseIns.where(entry.key, isLessThanOrEqualTo: entry.value)
+               :firebaseIns.where(entry.key, isEqualTo: entry.value);
             }
           } else {
-            query = firebaseIns.where(whereCriteria, isEqualTo: condition);
+            query =firebaseIns.where(whereCriteria,  isEqualTo: condition);
           }
         }
         (whereCriteria == "all")
@@ -60,6 +65,7 @@ class RecipeFireProvider extends ChangeNotifier {
           targetList.clear();
           targetList.addAll(
               result.docs.map((doc) => Recipes.fromJson(doc.data(), doc.id)));
+          
           print(targetList);
         }
         else{
