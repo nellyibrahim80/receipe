@@ -62,7 +62,7 @@ class _HomePageState extends State<HomePage> {
       controller: zoomDrawerController,
       disableDragGesture: true,
       mainScreenTapClose: true,
-      menuBackgroundColor: Colors.white,
+      menuBackgroundColor:  Color(ConstColors.bgInput),
       menuScreen: MenuScreen(),
       mainScreen: Scaffold(
         appBar: AppBar(

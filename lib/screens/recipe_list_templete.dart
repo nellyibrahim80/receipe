@@ -33,7 +33,8 @@ class _ListRecipesTempleteState extends State<ListRecipesTemplete> {
       disableDragGesture: true,
       mainScreenTapClose: true,
       menuBackgroundColor:  Color(ConstColors.bgInput),
-
+     // mainScreenOverlayColor: Color(ConstColors.bgInput),
+     // menuScreenOverlayColor: Color(ConstColors.bgInput),
       menuScreen: MenuScreen(),
       mainScreen: Scaffold(
         appBar: AppBar(
