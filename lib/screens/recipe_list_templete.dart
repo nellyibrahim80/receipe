@@ -55,11 +55,13 @@ class _ListRecipesTempleteState extends State<ListRecipesTemplete> {
         ),
         body:Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Column(
-            children: [
-              SearchWidget(),
-              widget.listRecipesWidget
-            ],
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                SearchWidget(),
+                widget.listRecipesWidget
+              ],
+            ),
           ),
         )
       ),

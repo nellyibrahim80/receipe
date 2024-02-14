@@ -24,6 +24,7 @@ class RecipeFireProvider extends ChangeNotifier {
   Future<void> getDefinedRecipes(String collectionName, String whereCriteria,
       dynamic condition, List<Recipes> targetList) async {
     dynamic result;
+    targetList.clear();
     try {
       OverlayLoadingProgress.start();
       dynamic query;

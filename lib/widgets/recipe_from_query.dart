@@ -33,10 +33,8 @@ class _RecipeFromQueryState extends State<RecipeFromQuery> {
     return Consumer<RecipeFireProvider>(
           builder: (context, recProValue, _) {
             return Column(
-              children: [
-               
-               
-                recProValue.displayRecipes == null
+              children: [ 
+                 recProValue.displayRecipes == null
                     ? const CircularProgressIndicator()
                     : (recProValue.displayRecipes?.isEmpty ?? false)
                         ? const Text('No Recipes Found')
