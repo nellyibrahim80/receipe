@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:receipe/screens/filter.dart';
 import 'package:receipe/screens/recipe_list_templete.dart';
-
 import '../models/recipe.dart';
 import '../screens/recipe_full_description.dart';
 import '../utilities/abstract_colors.dart';
@@ -92,7 +91,8 @@ class _SearchWidgetState extends State<SearchWidget> {
           SizedBox(height: 8), // results
           Flexible(
             child: SingleChildScrollView(
-              child: StreamBuilder<QuerySnapshot>(
+              child: (name !=null || name!="") 
+              ?StreamBuilder<QuerySnapshot>(
                 stream: FirebaseFirestore.instance.collection('recipes').snapshots(),
                 builder: (context, snapshots) {
                   if (snapshots.connectionState == ConnectionState.waiting) {
@@ -142,7 +142,8 @@ class _SearchWidgetState extends State<SearchWidget> {
                     );
                   }
                 },
-              ),
+              )
+              :null ,
             ),
           ),
         ],

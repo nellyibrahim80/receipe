@@ -1,9 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:receipe/providers/recipe_fire_provider.dart';
 import 'package:receipe/screens/recipe_full_description.dart';
 import 'package:receipe/screens/recipe_list_templete.dart';
+import 'package:receipe/widgets/alertTwoButton.dart';
 import 'package:receipe/widgets/favourite_icon.dart';
 import 'package:receipe/widgets/recipe_details.dart';
 import 'package:receipe/widgets/recipe_from_query.dart';
@@ -39,9 +41,12 @@ class _DisplayRecipesState extends State<DisplayRecipes> {
                   onTap: () {
                     Navigator.push(
                         context,
+                        PageTransition(child:  RecipesDesciption(recipe: recipe), type:PageTransitionType.fade,alignment: Alignment.bottomLeft ,duration:Duration(seconds: 1)));
+                    /*Navigator.push(
+                        context,
                         MaterialPageRoute(
                             builder: (context) =>
-                                RecipesDesciption(recipe: recipe)));
+                                RecipesDesciption(recipe: recipe)));*/
                   },
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -49,13 +54,15 @@ class _DisplayRecipesState extends State<DisplayRecipes> {
                       if (widget.recent != null)
                         InkWell(
                             onTap: () {
+                              /* Navigator.push(context, MaterialPageRoute(builder: (context)=>confirm(Taskindex: index)));*/
+                             
                               Provider.of<RecipeFireProvider>(context,
                                       listen: false)
                                   .addRecipeToFavourite(
                                       "recently_viewd_users_ids",
                                       recipe.id!,
                                       false);
-                                      
+                                   
                                       
                             },
                             child: Icon(

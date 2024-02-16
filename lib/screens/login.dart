@@ -1,13 +1,12 @@
-import 'package:firebase_auth/firebase_auth.dart';
+
 import 'package:flutter/material.dart';
-import 'package:get_it/get_it.dart';
+
 import 'package:provider/provider.dart';
 import 'package:receipe/providers/auth_provider.dart';
 import 'package:receipe/screens/register.dart';
-import 'package:receipe/services/shared_pref.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+
 import '../utilities/abstract_colors.dart';
-import 'home_page.dart';
+
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -23,8 +22,7 @@ class _LoginPageState extends State<LoginPage> {
     Provider.of<AuthFirebaseProvider>(context,listen: false).providerInit();
     super.initState();
   }
-  // TextEditingController userNameCtrl = TextEditingController();
-  // TextEditingController passCtrl = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,7 +36,7 @@ class _LoginPageState extends State<LoginPage> {
         child: Consumer<AuthFirebaseProvider>(
           builder: (context,providerValue,child) {
             return Form(
-              key: providerValue.formKey,
+              key: providerValue.formLoginKey,
               child: Column(
                 children: [
                   Expanded(

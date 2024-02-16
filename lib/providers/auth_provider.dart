@@ -1,7 +1,7 @@
 
 
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
+
 import 'package:flutter/material.dart';
 import 'package:overlay_kit/overlay_kit.dart';
 import 'package:receipe/screens/splash_screen.dart';
@@ -16,18 +16,24 @@ class AuthFirebaseProvider extends ChangeNotifier{
 
   GlobalKey<FormState>? formKey;
   GlobalKey<FormState>? regKey;
+  GlobalKey<FormState>? formRegKey;
+  GlobalKey<FormState>? formLoginKey;
   TextEditingController? emailCtrl;
   TextEditingController? passCtrl;
   TextEditingController? nameController;
+    TextEditingController? dnameController;
   bool obsecureText = true;
   String? userName;
 
   void providerInit() {
     formKey = GlobalKey<FormState>();
     regKey = GlobalKey<FormState>();
+    formRegKey= GlobalKey<FormState>();
+    formLoginKey= GlobalKey<FormState>();
     emailCtrl = TextEditingController();
     passCtrl = TextEditingController();
     nameController = TextEditingController();
+        dnameController = TextEditingController();
   }
   void toggleObsecure() {
     obsecureText = !obsecureText;
@@ -38,7 +44,11 @@ class AuthFirebaseProvider extends ChangeNotifier{
     emailCtrl = null;
     passCtrl = null;
     formKey = null;
+    formRegKey=null;
+    formLoginKey=null;
+    regKey=null;
     nameController = null;
+        dnameController = null;
     obsecureText = false;
   }
 
@@ -61,7 +71,7 @@ class AuthFirebaseProvider extends ChangeNotifier{
 
   Future<void> signUp(BuildContext context) async {
     try {
-      if (formKey?.currentState?.validate() ?? false) {
+      if (formRegKey?.currentState?.validate() ?? false) {
         OverlayLoadingProgress.start();
         var credentials = await FirebaseAuth.instance
             .createUserWithEmailAndPassword(
@@ -88,11 +98,14 @@ class AuthFirebaseProvider extends ChangeNotifier{
   }
 
   Future<void> UpdateUserName(BuildContext context,String userName) async {
+    
     var user = await FirebaseAuth.instance.currentUser;
     try {
+      if (regKey?.currentState?.validate() ?? false) {
       await user!.updateDisplayName(userName);
       OverlayToastMessage.show(textMessage: 'Name Updated Successfully.');
       notifyListeners();
+      }
     }catch(e){print("error in edit Display Name $e");}
   }
   Future<void> getUserName(BuildContext context) async {
@@ -106,7 +119,7 @@ class AuthFirebaseProvider extends ChangeNotifier{
   Future<void> LogIn(BuildContext context) async{
     try {
       print("login fun*************");
-      if (formKey?.currentState?.validate() ?? false) {
+      if (formLoginKey?.currentState?.validate() ?? false) {
         print("login fun**++++++++++++*");
         OverlayLoadingProgress.start();
         var firebaseInstance = await FirebaseAuth.instance

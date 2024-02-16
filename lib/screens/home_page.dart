@@ -1,11 +1,10 @@
-
 import 'package:carousel_slider/carousel_slider.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-
 import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
+import 'package:page_transition/page_transition.dart';
 
 import 'package:provider/provider.dart';
 import 'package:receipe/screens/recipe_full_description.dart';
@@ -49,12 +48,21 @@ class _HomePageState extends State<HomePage> {
     //Provider.of<RecipeFireProvider>(listen: false, context).getDBRecipe();
     //Provider.of<RecipeFireProvider>(listen: false, context).getFreshRecipes();
     //Provider.of<RecipeFireProvider>(listen: false, context).getRecommandedRecipes();
- Provider.of<RecipeFireProvider>(context, listen: false).getDefinedRecipes("recipes", "is_fresh", false,Provider.of<RecipeFireProvider>(context, listen: false).recommendedRecipesList);
-  Provider.of<RecipeFireProvider>(context, listen: false).getDefinedRecipes("recipes", "is_fresh",true,Provider.of<RecipeFireProvider>(context, listen: false).freshRecipesList);
+    Provider.of<RecipeFireProvider>(context, listen: false).getDefinedRecipes(
+        "recipes",
+        "is_fresh",
+        false,
+        Provider.of<RecipeFireProvider>(context, listen: false)
+            .recommendedRecipesList);
+    Provider.of<RecipeFireProvider>(context, listen: false).getDefinedRecipes(
+        "recipes",
+        "is_fresh",
+        true,
+        Provider.of<RecipeFireProvider>(context, listen: false)
+            .freshRecipesList);
 
     super.initState();
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -62,7 +70,7 @@ class _HomePageState extends State<HomePage> {
       controller: zoomDrawerController,
       disableDragGesture: true,
       mainScreenTapClose: true,
-      menuBackgroundColor:  Color(ConstColors.bgInput),
+      menuBackgroundColor: Color(ConstColors.bgInput),
       menuScreen: MenuScreen(),
       mainScreen: Scaffold(
         appBar: AppBar(
@@ -106,9 +114,7 @@ class _HomePageState extends State<HomePage> {
                   builder: (context, value, child) => Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-
                       Text(
-
                           "Bonjour, ${FirebaseAuth.instance.currentUser?.displayName ?? "Anonoymous"}",
                           style: const TextStyle(
                               color: Color(ConstColors.textInput))),
@@ -125,7 +131,7 @@ class _HomePageState extends State<HomePage> {
                 HeaderBlack(
                   HeaderBlackTitle: "What would you like to cook today?",
                 ),
-               SearchWidget(),
+                SearchWidget(),
                 SizedBox(width: 370, height: 200, child: AdvCarousel()),
                 SeeAllHeader(
                   HeaderTitle: "Today's Fresh Recipes",
@@ -138,7 +144,6 @@ class _HomePageState extends State<HomePage> {
                           height: 210,
                           child: ListView.builder(
                             itemBuilder: (context, index) {
-                            
                               Recipes recipe = Rvalue.freshRecipesList![index];
 
                               return SizedBox(
@@ -156,10 +161,23 @@ class _HomePageState extends State<HomePage> {
                                     elevation: 0,
                                     //shadowColor: Colors.white,
                                     child: InkWell(
-                                        onTap: (){  Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) =>RecipesDesciption(recipe: recipe) ));},
+                                      onTap: () {
+                                        Navigator.push(
+                                            context,
+                                            PageTransition(
+                                                child: RecipesDesciption(
+                                                    recipe: recipe),
+                                                type: PageTransitionType.fade,
+                                                alignment: Alignment.bottomLeft,
+                                                duration:
+                                                    Duration(seconds: 1)));
+                                        /* Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    RecipesDesciption(
+                                                        recipe: recipe)));*/
+                                      },
                                       child: RecipeWidget(
                                         index: index,
                                         recipe: recipe,
@@ -193,7 +211,6 @@ class _HomePageState extends State<HomePage> {
       ),
       borderRadius: 24.0,
       showShadow: true,
-
       angle: -12.0,
       drawerShadowsBackgroundColor: Colors.grey.shade300,
       slideWidth: MediaQuery.of(context).size.width * 0.65,

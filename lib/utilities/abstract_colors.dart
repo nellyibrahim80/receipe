@@ -17,4 +17,9 @@ abstract class ConstColors {
   );
   static const TextStyle headerTxtStyle =
       TextStyle(fontSize: 18, fontWeight: FontWeight.w700);
+  
+  static OutlineInputBorder textBoxBorder = OutlineInputBorder(
+      borderRadius: BorderRadius.circular(10.0),
+      borderSide: BorderSide(color: Color(ConstColors.bgInput)),
+    );
 }

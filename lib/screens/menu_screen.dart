@@ -16,6 +16,8 @@ import 'package:receipe/screens/home_page.dart';
 import 'package:receipe/screens/ingredient.dart';
 
 import 'package:receipe/utilities/abstract_colors.dart';
+import 'package:receipe/widgets/diplay_name.dart';
+import 'package:receipe/widgets/profile_picture.dart';
 import '../widgets/menuItem.dart';
 import 'recipe_list_templete.dart';
 
@@ -46,76 +48,12 @@ class _MenuScreenState extends State<MenuScreen> {
           backgroundColor: Color(ConstColors.bgInput),
           leadingWidth: 90,
           toolbarHeight: 80,
-          leading: SizedBox(
-            width: 150,
-            child: Stack(
-              fit: StackFit.expand,
-              children: [
-                CircleAvatar(
-                  backgroundImage: NetworkImage('${user?.photoURL}'),
-                ),
-                Positioned(
-                  bottom: 0,
-                  right: 0,
-                  child: InkWell(
-                    onTap: () async {
-                      OverlayLoadingProgress.start();
-
-                      var imageResult = await FilePicker.platform
-                          .pickFiles(
-                          type: FileType.image, withData: true);
-
-                      var ref = FirebaseStorage.instance
-                          .ref('user/${imageResult?.files.first.name}');
-
-                      if (imageResult?.files.first.bytes != null) {
-                        var uploadResult = await ref.putData(
-                            imageResult!.files.first.bytes!,
-                            SettableMetadata(contentType: 'image/png'));
-
-                        if (uploadResult.state == TaskState.success) {
-                          try {
-                            await user?.updatePhotoURL(
-                                await ref.getDownloadURL());
-                            setState(() {});
-                            print(user?.photoURL);
-                          } catch (e) {
-                            print("error in edit profile pic $e");
-                          }
-                          print(
-                              'Profile Picture updated successfully  ');
-                        }
-                      }
-
-                      OverlayLoadingProgress.stop();
-                    },
-                    child: Container(
-                      child: const Icon(
-                        Icons.edit,
-                        color: Colors.black,
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
+          leading:ProfilePicture(),
           title:  Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-          Consumer<AuthFirebaseProvider>(
-          builder: (context, authProvValu, child) => Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-Text(
-          FirebaseAuth.instance.currentUser!.displayName.toString(),
-              //"${authProvValu.userName}",
-  //"${ Provider.of<AuthFirebaseProvider>(context,listen: true).userName}",
-                style: TextStyle( fontSize: 16.0, fontWeight: FontWeight.normal),),
-
-          ],
-        ),),
+   DisplayFullName(),
         Padding(
                 padding: EdgeInsets.only(top:8.0),
                 child: InkWell(

@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -17,7 +16,8 @@ class _ingredientListState extends State<IngredientList> {
   @override
   void initState() {
     // TODO: implement initState
-    Provider.of<IngredientFireProvider>(context, listen: false).getIngredient( 'user_ids');
+    Provider.of<IngredientFireProvider>(context, listen: false)
+        .getIngredient('user_ids');
     super.initState();
   }
 
@@ -34,72 +34,73 @@ class _ingredientListState extends State<IngredientList> {
     }
 
     return Consumer<IngredientFireProvider>(
-      builder: (context, ingProvValue, _) { 
-         bool isExsist = false;
-          var userIngredientsTitles =
-                          ingProvValue.ingredientList .map((e) => e.name).toList();
-                                          Widget checkIngredientWidget(String recipeIngredient) {
-                        bool isExsist = false;
-                        for (var userIngredientsTitle in userIngredientsTitles) {
-                          if (recipeIngredient.contains(userIngredientsTitle!.toLowerCase())) {
-                            isExsist = true;
-                            break;
-                          } else {
-                            isExsist = false;
-                          }
-                        }
-                        
-                         return (isExsist)?  Icon(Icons.check_circle_outline,color: Colors.green)
-                                            : Icon(Icons.cancel_outlined,color: Colors.red );
-                       Icon(Icons.check);
-                  
-                        }
-                              // 
+      builder: (context, ingProvValue, _) {
+        bool isExsist = false;
+        var userIngredientsTitles =
+            ingProvValue.ingredientList.map((e) => e.name).toList();
+        Widget checkIngredientWidget(String recipeIngredient) {
+          bool isExsist = false;
+          for (var userIngredientsTitle in userIngredientsTitles) {
+            if (recipeIngredient
+                .contains(userIngredientsTitle!.toLowerCase())) {
+              isExsist = true;
+              break;
+            } else {
+              isExsist = false;
+            }
+          }
+
+          return (isExsist)
+              ? Icon(Icons.check_circle_outline, color: Colors.green)
+              : Icon(Icons.cancel_outlined, color: Colors.red);
+          Icon(Icons.check);
+        }
+
+        //
         return Column(
           children: [
             ingProvValue.ingredientList == null
                 ? const CircularProgressIndicator()
-                : (ingProvValue.ingredientList?.isEmpty ?? false)
+                : ( widget.recipeIngredientList?.isEmpty ?? false)
                     ? const Text('No Ingredient Found')
                     : Column(
-                      children: [
-
-                        const Padding(
-                          padding: EdgeInsets.only(top:20.0),
-                          child: Row(
-                                children: [
-                                  Text(
-                                    "Ingredients",
-                                style: ConstColors.headerTxtStyle,
-                                  ),
-                                ],
-                              ),
-                        ),Column(
-                              children:  widget.recipeIngredientList
-                              ?.map((e) => Row(
-                                    children: [
-                                      SizedBox(
-                                        width: 365,
-                                        child: ListTile(
-                                          horizontalTitleGap:0 ,
-                                          minVerticalPadding: 0.0,
-                                          minLeadingWidth: 0.0,
-                                         // tileColor: Colors.red,
-                                          contentPadding: EdgeInsets.all(0),
-                                          leading:   SizedBox(
-                                         
-                                        width: 50,
-                                        child:checkIngredientWidget(e)
-                                          ),
-                                          title: Text(e)),
-                                      ),
-                                      
-                                     
-                                    ],
-                                  ))
-                              .toList() ?? []
+                        children: [
+                          const Padding(
+                            padding: EdgeInsets.only(top: 20.0),
+                            child: Row(
+                              children: [
+                                Text(
+                                  "Ingredients",
+                                  style: ConstColors.headerTxtStyle,
+                                ),
+                              ],
                             ),
-                      /*  SizedBox(
+                          ),
+                          Column(
+                              children: widget.recipeIngredientList
+                                      ?.map((e) => Row(
+                                            children: [
+                                              SizedBox(
+                                                width: 365,
+                                                child: ListTile(
+                                                    horizontalTitleGap: 0,
+                                                    minVerticalPadding: 0.0,
+                                                    minLeadingWidth: 0.0,
+                                                    // tileColor: Colors.red,
+                                                    contentPadding:
+                                                        EdgeInsets.all(0),
+                                                    leading: SizedBox(
+                                                        width: 50,
+                                                        child:
+                                                            checkIngredientWidget(
+                                                                e)),
+                                                    title: Text(e)),
+                                              ),
+                                            ],
+                                          ))
+                                      .toList() ??
+                                  []),
+                          /*  SizedBox(
                             height: 60,
                             child: ListView.builder(
                               scrollDirection: Axis.horizontal,
@@ -132,8 +133,9 @@ class _ingredientListState extends State<IngredientList> {
                               },
                             ),
                           ),
-                     */ ],
-                    )
+                     */
+                        ],
+                      )
           ],
         );
       },
