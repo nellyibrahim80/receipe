@@ -91,7 +91,7 @@ class _SearchWidgetState extends State<SearchWidget> {
           SizedBox(height: 8), // results
           Flexible(
             child: SingleChildScrollView(
-              child: (name !=null || name!="") 
+              child: (name !=null && name!="") 
               ?StreamBuilder<QuerySnapshot>(
                 stream: FirebaseFirestore.instance.collection('recipes').snapshots(),
                 builder: (context, snapshots) {

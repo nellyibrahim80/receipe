@@ -1,5 +1,3 @@
-
-
 import 'dart:ffi';
 
 import 'package:file_picker/file_picker.dart';
@@ -14,6 +12,7 @@ import 'package:receipe/screens/edit_profile.dart';
 import 'package:receipe/screens/favourit.dart';
 import 'package:receipe/screens/home_page.dart';
 import 'package:receipe/screens/ingredient.dart';
+import 'package:receipe/screens/setting.dart';
 
 import 'package:receipe/utilities/abstract_colors.dart';
 import 'package:receipe/widgets/diplay_name.dart';
@@ -29,17 +28,17 @@ class MenuScreen extends StatefulWidget {
 }
 
 class _MenuScreenState extends State<MenuScreen> {
-
   @override
   void initState() {
     // TODO: implement initState
-    Provider.of<AuthFirebaseProvider>(context,listen: false).getUserName(context);
+    Provider.of<AuthFirebaseProvider>(context, listen: false)
+        .getUserName(context);
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     var user = FirebaseAuth.instance.currentUser;
-
 
     return SafeArea(
       child: Scaffold(
@@ -48,27 +47,31 @@ class _MenuScreenState extends State<MenuScreen> {
           backgroundColor: Color(ConstColors.bgInput),
           leadingWidth: 90,
           toolbarHeight: 80,
-          leading:ProfilePicture(),
-          title:  Column(
+          leading: ProfilePicture(),
+          title: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-   DisplayFullName(),
-        Padding(
-                padding: EdgeInsets.only(top:8.0),
+              const DisplayFullName(myFont: FontWeight.normal),
+              Padding(
+                padding: EdgeInsets.only(top: 8.0),
                 child: InkWell(
                   onTap: () {
                     Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => ListRecipesTemplete(
-                      listRecipesWidget:EditProfile(),
-                      pageTitle: "Edit Profile",
-                    ),));
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ListRecipesTemplete(
+                            listRecipesWidget: EditProfile(),
+                            pageTitle: "Edit Profile",
+                          ),
+                        ));
                   },
                   child: const Text(
                     "Edit Profile",
-                    style: TextStyle(fontSize: 14.0,color:Color(ConstColors.textInput),),
+                    style: TextStyle(
+                      fontSize: 14.0,
+                      color: Color(ConstColors.textInput),
+                    ),
                   ),
                 ),
               ),
@@ -76,14 +79,12 @@ class _MenuScreenState extends State<MenuScreen> {
           ),
         ),
         backgroundColor: Color(ConstColors.bgInput),
-        body: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-
-            Expanded(
-              flex: 3,
-              child: Padding(
-                padding: const EdgeInsets.only(top:18.0,left:10),
+        body: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(top: 18.0, left: 10),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -111,6 +112,13 @@ class _MenuScreenState extends State<MenuScreen> {
                         ),
                         menutitle: 'Recently Viewed',
                         menuIcon: Icons.play_arrow_outlined),
+                         MenuItem(
+                        LinkScreen:  ListRecipesTemplete(
+                            listRecipesWidget: SettingPage(),
+                            pageTitle: "Setting",
+                          ),
+                        menutitle: 'Setting',
+                        menuIcon: Icons.settings),
                     MenuItem(
                         LinkScreen: IngredientPage(),
                         menutitle: 'Ingredients',
@@ -126,7 +134,9 @@ class _MenuScreenState extends State<MenuScreen> {
                           children: [
                             Text(
                               "Sign Out",
-                              style: TextStyle(color: Color(ConstColors.textSearchInput),fontWeight: FontWeight.normal),
+                              style: TextStyle(
+                                  color: Color(ConstColors.textSearchInput),
+                                  fontWeight: FontWeight.normal),
                             ),
                           ],
                         ),
@@ -136,13 +146,14 @@ class _MenuScreenState extends State<MenuScreen> {
                               .SignOut(context);
                         },
                       ),
-                      leading: Icon(Icons.logout,color:Color(ConstColors.textSearchInput)),
+                      leading: Icon(Icons.logout,
+                          color: Color(ConstColors.textSearchInput)),
                     ),
                   ],
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

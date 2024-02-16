@@ -20,9 +20,12 @@ class _ProfilePictureState extends State<ProfilePicture> {
             child: Stack(
               fit: StackFit.expand,
               children: [
-                CircleAvatar(
-                  backgroundImage: NetworkImage('${user?.photoURL}'),
-                ),
+            CircleAvatar(
+  backgroundImage: NetworkImage(
+    user?.photoURL ?? "https://firebasestorage.googleapis.com/v0/b/recipe-33f86.appspot.com/o/user%2FWhatsApp%20Image%202024-02-16%20at%2023.02.56_051904a9.jpg?alt=media",
+  ),
+),
+
                 Positioned(
                   bottom: 0,
                   right: 0,

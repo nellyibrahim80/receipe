@@ -59,7 +59,7 @@ class _ListRecipesTempleteState extends State<ListRecipesTemplete> {
           child: SingleChildScrollView(
             child: Column(
               children: [
-                if(widget.pageTitle != "Edit Profile")SearchWidget(),
+                if(widget.pageTitle != "Edit Profile"&& widget.pageTitle != "Setting")SearchWidget(),
                 widget.listRecipesWidget
               ],
             ),
