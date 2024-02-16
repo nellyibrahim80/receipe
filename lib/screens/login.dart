@@ -1,5 +1,7 @@
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:overlay_kit/overlay_kit.dart';
 
 import 'package:provider/provider.dart';
 import 'package:receipe/providers/auth_provider.dart';
@@ -60,7 +62,7 @@ class _LoginPageState extends State<LoginPage> {
                           padding: const EdgeInsets.all(20.0),
                           child: SizedBox(
                             width: 300,
-                            height: 200,
+                           
                             child: Column(
                               children: [
                                 TextFormField(
@@ -99,7 +101,7 @@ class _LoginPageState extends State<LoginPage> {
                                   obscureText: providerValue.obsecureText,
                                   decoration:  InputDecoration(
                                     hintText: "Password",
-                                    hintStyle: TextStyle(
+                                    hintStyle: const TextStyle(
                                       color: Color(ConstColors.textInput),
                                       fontWeight: FontWeight.normal,
                                     ),
@@ -112,11 +114,31 @@ class _LoginPageState extends State<LoginPage> {
                                   ),
                                   style: const TextStyle(
                                       color: Color(ConstColors.textInput)),
+                                ), 
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.only(top:8.0),
+                                      child: TextButton(
+                                        onPressed:() async {
+                                          if(providerValue.emailCtrl?.text !=null && providerValue.emailCtrl!.text.isNotEmpty){
+                                          await FirebaseAuth.instance.sendPasswordResetEmail(email: providerValue.emailCtrl!.text);
+                                          OverlayToastMessage.show(
+                                            duration: Duration(seconds: 9),
+                                            textMessage: 'Reset Email has been sent Successfully to ${providerValue.emailCtrl!.text} please check your email.');
+                                          }
+                                          else{OverlayToastMessage.show(textMessage: 'Enter Email please.');}
+                                        },
+                                        child:Text("Forgot Password?",style:TextStyle(color: Color(ConstColors.textCyanInput))) ,),
+                                    ),
+                                  ],
                                 ),
                               ],
                             ),
                           ),
                         ),
+                       
                         ElevatedButton(
                           child: const Text("Log In"),
                           onPressed: () {

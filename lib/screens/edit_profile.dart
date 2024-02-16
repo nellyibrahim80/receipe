@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
@@ -36,8 +37,13 @@ class _EditProfileState extends State<EditProfile> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   //Old Display Name
-                  DisplayFullName(),
-
+                  Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const DisplayFullName(myFont:  FontWeight.bold),
+                    ],
+                  ),
+Text(FirebaseAuth.instance.currentUser!.email.toString(),),
                   //Profile Pic
                   SizedBox(height: 190, child: ProfilePicture()),
 

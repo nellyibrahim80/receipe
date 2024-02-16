@@ -87,7 +87,28 @@ class AuthFirebaseProvider extends ChangeNotifier{
         }
         OverlayLoadingProgress.stop();
       }
-    } catch (e) {OverlayLoadingProgress.stop();}
+
+
+
+
+    } on FirebaseAuthException catch (e) {
+      OverlayLoadingProgress.stop();
+ print("errorrrrrr in sign up --------------$e");
+  if (e.code == 'email-already-in-use') {
+        OverlayToastMessage.show(
+            widget: const ToastMessageWidget(
+              message: 'Email already exists.',
+              toastMessageStatus: ToastMessageStatus.failed,
+            ));
+      }
+      else if (e.code == 'invalid-email') {
+        OverlayToastMessage.show(
+            widget: const ToastMessageWidget(
+              message: 'Invalid email',
+              toastMessageStatus: ToastMessageStatus.failed,
+            ));
+      }
+      }
   }
   Future<void> UpdateUserProfilePic(BuildContext context,String image) async {
     var user = await FirebaseAuth.instance.currentUser;
@@ -114,7 +135,9 @@ class AuthFirebaseProvider extends ChangeNotifier{
       userName= user!.displayName;
 
      // notifyListeners();
-    }catch(e){print("error in edit Display Name $e");}
+    }
+    
+    catch(e){print("error in edit Display Name $e");}
   }
   Future<void> LogIn(BuildContext context) async{
     try {
@@ -134,7 +157,7 @@ class AuthFirebaseProvider extends ChangeNotifier{
         }
       }
     }
-          on FirebaseAuthException catch (e) {
+     on FirebaseAuthException catch (e) {
       OverlayLoadingProgress.stop();
 
       if (e.code == 'user-not-found') {
@@ -150,7 +173,15 @@ class AuthFirebaseProvider extends ChangeNotifier{
               message: 'Wrong password provided for that user.',
               toastMessageStatus: ToastMessageStatus.failed,
             ));
-      } else if (e.code == "user-disabled") {
+      } 
+         else if (e.code == 'auth/email-already-exists') {
+        OverlayToastMessage.show(
+            widget: const ToastMessageWidget(
+              message: 'auth/email-already-exists.',
+              toastMessageStatus: ToastMessageStatus.failed,
+            ));
+      }
+      else if (e.code == "user-disabled") {
         OverlayToastMessage.show(
             widget: const ToastMessageWidget(
               message: 'This email Account was disabled',
@@ -160,6 +191,13 @@ class AuthFirebaseProvider extends ChangeNotifier{
         OverlayToastMessage.show(
             widget: const ToastMessageWidget(
               message: 'invalid-credential',
+              toastMessageStatus: ToastMessageStatus.failed,
+            ));
+      }
+      else if (e.code == "channel-error") {
+        OverlayToastMessage.show(
+            widget: const ToastMessageWidget(
+              message: 'channel-error',
               toastMessageStatus: ToastMessageStatus.failed,
             ));
       }
