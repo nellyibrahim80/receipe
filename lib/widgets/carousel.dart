@@ -49,35 +49,45 @@ class _AdvCarouselState extends State<AdvCarousel> {
                             options: CarouselOptions(
                                 height: 150.0,
                                 viewportFraction: 1,
-                                autoPlay: false,
+                                autoPlay: true,
                                 onPageChanged: (index, _) =>
                                     value.onPageChanged(index),
                                 enlargeFactor: .3),
-                            /*(index, _) {
-                                  value.current = index;
-                                  setState(() {});
-                                })*/
-                            //items: advList.map((Advs) {
-                            items: value.adsList?.map((Advs) {
-                             // print("************************${value.adsList}");
-                              return Builder(
-                                builder: (BuildContext context) {
-                                  return Container(
-                                      width: MediaQuery.of(context).size.width,
-                                      margin: const EdgeInsets.symmetric(
-                                          horizontal: 5.0),
-                                      decoration: BoxDecoration(
-                                          image: DecorationImage(
-                                              image: AssetImage(
-                                                  "assets/images/${Advs.image}")),
-                                          color: Colors.white),
-                                      child: Text(
-                                        Advs.title ?? "",
-                                        style: const TextStyle(fontSize: 16.0),
-                                      ));
-                                },
-                              );
-                            }).toList(),
+                           
+                            items: value.adsList!.map((ad) {
+                        return Stack(
+                          children: [
+                            Container(
+                              width: MediaQuery.of(context).size.width,
+                              margin:
+                                  const EdgeInsets.symmetric(horizontal: 5.0),
+                              decoration: BoxDecoration(
+                                  image: DecorationImage(
+                                      fit: BoxFit.fitWidth,
+                                      image:  AssetImage(
+                                                    "assets/images/${ad.image}"))),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                    color: Colors.black38,
+                                    borderRadius: BorderRadius.circular(12)),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(4.0),
+                                  child: Text(
+                                    ad.title.toString(),
+                                    style: const TextStyle(
+                                        fontSize: 16.0, color: Colors.white),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        );
+                      }).toList(),
+                            
+                           
                           ),
                           const SizedBox(
                             height: 10,

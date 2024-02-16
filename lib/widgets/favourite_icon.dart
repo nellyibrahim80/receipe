@@ -21,7 +21,7 @@ class _FavouriteIconWidgetState extends State<FavouriteIconWidget> {
                InkWell(
                   onTap: () {
                     Provider.of<RecipeFireProvider>(context, listen: false)
-                        .addRecipeToFavourite(
+                        .addRecipeToFavourite("favourite_users_ids",
                             widget.recipe!.id!,
                             !(widget.recipe?.favourite_users_ids?.contains(
                                     FirebaseAuth.instance.currentUser?.uid) ??

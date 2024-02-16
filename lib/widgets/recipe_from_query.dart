@@ -39,6 +39,7 @@ class _RecipeFromQueryState extends State<RecipeFromQuery> {
                     : (recProValue.displayRecipes?.isEmpty ?? false)
                         ? const Text('No Recipes Found')
                         : DisplayRecipes(
+                         //  recent: (widget.whereCriteria == "recently_viewd_users_ids") ? "recent": null,
                             recipeList: recProValue.displayRecipes,
                           )
               ],

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:receipe/utilities/abstract_colors.dart';
 
 import '../screens/ingredient.dart';
 
@@ -20,15 +21,19 @@ class _MenuItemState extends State<MenuItem> {
 
 
     return SizedBox(
-      width: 180,
+      width: 210,
       child: ListTile(
+       horizontalTitleGap: 0,
+        minLeadingWidth: 15,
+       // minVerticalPadding: 20,
+        contentPadding: EdgeInsets.all(8),
         title: TextButton(
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
                 widget.menutitle,
-                style: TextStyle(color: Colors.black87),
+                style: TextStyle(color: Color(ConstColors.textSearchInput),fontWeight: FontWeight.normal),
               ),
             ],
           ),
@@ -39,7 +44,7 @@ class _MenuItemState extends State<MenuItem> {
                     builder: (context) => widget.LinkScreen));
           },
         ),
-        leading: Icon(widget.menuIcon),
+        leading: Icon(widget.menuIcon,color: Color(ConstColors.textSearchInput),),
       ),
     );
   }

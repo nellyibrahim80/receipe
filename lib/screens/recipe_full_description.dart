@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:receipe/models/recipe.dart';
@@ -30,13 +31,19 @@ class _RecipesDesciptionState extends State<RecipesDesciption> {
         Provider.of<RecipeFireProvider>(context, listen: false).displayRecipes);
     Provider.of<IngredientFireProvider>(context, listen: false)
         .getIngredient('user_ids');
+ 
     super.initState();
+
   }
 
   @override
   Widget build(BuildContext context) {
+             Provider.of<RecipeFireProvider>(context, listen: false)
+                        .addRecipeToFavourite("recently_viewd_users_ids",
+                            widget.recipe.id!,
+                                true);
     return Consumer<RecipeFireProvider>(builder: (context, recProvider, child) {
-  
+
       // Recipes refRecipe = recProvider.displayRecipes.first;
       return Scaffold(
         appBar: AppBar(),
@@ -55,7 +62,7 @@ class _RecipesDesciptionState extends State<RecipesDesciption> {
                               children: [
                                 Text(
                                   widget.recipe.MealType.toString(),
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                       color: Color(ConstColors.textCyanInput),
                                       fontSize: 18),
                                 ),

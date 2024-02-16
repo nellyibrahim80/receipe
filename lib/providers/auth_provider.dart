@@ -15,13 +15,16 @@ import '../widgets/ToastMessage.dart';
 class AuthFirebaseProvider extends ChangeNotifier{
 
   GlobalKey<FormState>? formKey;
+  GlobalKey<FormState>? regKey;
   TextEditingController? emailCtrl;
   TextEditingController? passCtrl;
   TextEditingController? nameController;
   bool obsecureText = true;
+  String? userName;
 
   void providerInit() {
     formKey = GlobalKey<FormState>();
+    regKey = GlobalKey<FormState>();
     emailCtrl = TextEditingController();
     passCtrl = TextEditingController();
     nameController = TextEditingController();
@@ -82,6 +85,23 @@ class AuthFirebaseProvider extends ChangeNotifier{
       await user?.updatePhotoURL(image);
     notifyListeners();
     }catch(e){print("error in edit profile pic $e");}
+  }
+
+  Future<void> UpdateUserName(BuildContext context,String userName) async {
+    var user = await FirebaseAuth.instance.currentUser;
+    try {
+      await user!.updateDisplayName(userName);
+      OverlayToastMessage.show(textMessage: 'Name Updated Successfully.');
+      notifyListeners();
+    }catch(e){print("error in edit Display Name $e");}
+  }
+  Future<void> getUserName(BuildContext context) async {
+    var user = await FirebaseAuth.instance.currentUser;
+    try {
+      userName= user!.displayName;
+
+     // notifyListeners();
+    }catch(e){print("error in edit Display Name $e");}
   }
   Future<void> LogIn(BuildContext context) async{
     try {

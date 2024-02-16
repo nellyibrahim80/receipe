@@ -59,7 +59,7 @@ class _ListRecipesTempleteState extends State<ListRecipesTemplete> {
           child: SingleChildScrollView(
             child: Column(
               children: [
-                SearchWidget(),
+                if(widget.pageTitle != "Edit Profile")SearchWidget(),
                 widget.listRecipesWidget
               ],
             ),
@@ -68,7 +68,7 @@ class _ListRecipesTempleteState extends State<ListRecipesTemplete> {
       ),
       borderRadius: 24.0,
       showShadow: true,
-      angle: -5.0,
+      angle: -12.0,
       drawerShadowsBackgroundColor: Colors.grey.shade300,
       slideWidth: MediaQuery.of(context).size.width * 0.65,
     );

@@ -102,41 +102,41 @@ class _SearchWidgetState extends State<SearchWidget> {
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
                         for (var doc in snapshots.data!.docs)
-                   // 
+                        //
                           (doc['title'].toString().toLowerCase().contains(name.toLowerCase()) && name.isNotEmpty)
-                            ? InkWell(
+                              ? InkWell(
                             onTap: (){
                               final recipe = Recipes.fromJson(doc.data() as Map<String, dynamic>, doc.id);
                               Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>RecipesDesciption(recipe: recipe) ));},
-                              child: ListTile(
-                                title: Text(
-                                  doc['title'],
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: TextStyle(
-                                    color: Colors.black54,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                subtitle: Text(
-                                  doc['Description'],
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: TextStyle(
-                                    color: Colors.black54,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                leading: CircleAvatar(
-                                  backgroundImage: AssetImage("assets/images/${doc['image']}"),
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>RecipesDesciption(recipe: recipe) ));},
+                            child: ListTile(
+                              title: Text(
+                                doc['title'],
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                  color: Colors.black54,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
                                 ),
                               ),
-                            ): SizedBox(height: 0,)
+                              subtitle: Text(
+                                doc['Description'],
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                  color: Colors.black54,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              leading: CircleAvatar(
+                                backgroundImage: AssetImage("assets/images/${doc['image']}"),
+                              ),
+                            ),
+                          ): SizedBox(height: 0,)
 
                       ],
                     );

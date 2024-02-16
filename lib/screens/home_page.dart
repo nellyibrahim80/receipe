@@ -106,9 +106,9 @@ class _HomePageState extends State<HomePage> {
                   builder: (context, value, child) => Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      //    Text("Bonjour, ${SharedPrefClass.pref.getString("Email")}", //With Abstract class
+
                       Text(
-                          // "Bonjour, ${GetIt.I.get<SharedPreferences>().getString("Email")}", //With Get It singleton
+
                           "Bonjour, ${FirebaseAuth.instance.currentUser?.displayName ?? "Anonoymous"}",
                           style: const TextStyle(
                               color: Color(ConstColors.textInput))),
@@ -193,7 +193,8 @@ class _HomePageState extends State<HomePage> {
       ),
       borderRadius: 24.0,
       showShadow: true,
-      angle: -5.0,
+
+      angle: -12.0,
       drawerShadowsBackgroundColor: Colors.grey.shade300,
       slideWidth: MediaQuery.of(context).size.width * 0.65,
     );

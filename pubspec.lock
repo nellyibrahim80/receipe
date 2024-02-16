@@ -280,6 +280,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.1.1"
+  future_builder_ex:
+    dependency: "direct main"
+    description:
+      name: future_builder_ex
+      sha256: c0ad2fb66b3739ebfe41493a843f3b7d755b7f846f9da8e05b39072c9234cd34
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.0.0"
   get_it:
     dependency: "direct main"
     description:
@@ -320,6 +328,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.0.0"
+  logger:
+    dependency: transitive
+    description:
+      name: logger
+      sha256: "7ad7215c15420a102ec687bb320a7312afd449bac63bfb1c60d9787c27b9767f"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.4.0"
   matcher:
     dependency: transitive
     description:

@@ -51,6 +51,7 @@ dependencies:
   flutter_rating_bar: ^4.0.1
   firebase_storage: ^11.6.0
   file_picker: ^6.1.1
+  future_builder_ex: ^3.0.0
   #chip_list: ^2.4.4+8
 
 dev_dependencies:

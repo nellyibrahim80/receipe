@@ -23,7 +23,7 @@ class _FavouritesPageState extends State<FavouritesPage> {
           stream: FirebaseFirestore.instance
               .collection(widget.collectionName)
               .where(widget.whereCriteria,
-                  arrayContains: FirebaseAuth.instance.currentUser!.uid)
+               arrayContains: FirebaseAuth.instance.currentUser!.uid)
               .snapshots(),
           builder: (context, snapshots) {
             if (snapshots.connectionState == ConnectionState.waiting) {
@@ -37,9 +37,13 @@ class _FavouritesPageState extends State<FavouritesPage> {
                           .map((e) => Recipes.fromJson(e.data(), e.id))
                           .toList() ??
                       [];
-                  return DisplayRecipes(
+                        return (recipesList.isEmpty) 
+                        ? (widget.whereCriteria == "recently_viewd_users_ids") ? Text('No Viewed Recipes yet'): Text("You don't have favourite receipes yet ")
+                        :  DisplayRecipes(
+                      recent: (widget.whereCriteria == "recently_viewd_users_ids") ? "recent": null,
                     recipeList: recipesList,
                   );
+                
                 } else {
                   return const Text('No Data Found');
                 }

@@ -49,7 +49,11 @@ class RecipeFireProvider extends ChangeNotifier {
                ?firebaseIns.where(entry.key, isLessThanOrEqualTo: entry.value)
                :firebaseIns.where(entry.key, isEqualTo: entry.value);
             }
-          } else {
+          } 
+          else if (whereCriteria == "recently_viewd_users_ids"){
+            query =firebaseIns.where(whereCriteria,  arrayContains: condition);
+          }
+          else {
             query =firebaseIns.where(whereCriteria,  isEqualTo: condition);
           }
         }
@@ -71,6 +75,7 @@ class RecipeFireProvider extends ChangeNotifier {
         }
         else{
           targetList.clear();
+          OverlayLoadingProgress.stop();
         }
       }
       notifyListeners();
@@ -79,7 +84,7 @@ class RecipeFireProvider extends ChangeNotifier {
       targetList = [];
       targetList.clear();
       print("error in $targetList ------- $e");
-     
+     OverlayLoadingProgress.stop();
       //   notifyListeners();
     }
   }
@@ -129,7 +134,7 @@ class RecipeFireProvider extends ChangeNotifier {
         if (recipesListIndex != -1) {
           listToUpdate.removeAt(recipesListIndex);
           listToUpdate.insert(recipesListIndex, updatedRecipe);
-          print("Done for $listToUpdate");
+          print("Done update list for ${listToUpdate}");
         }
       }
 
@@ -137,38 +142,15 @@ class RecipeFireProvider extends ChangeNotifier {
       updatelist(freshRecipesList!);
       updatelist(recommendedRecipesList!);
       updatelist(displayRecipes!);
-      /* var recipesListIndex =
-      recipeList?.indexWhere((recipe) => recipe.id == recipeId);
-
-      if (recipesListIndex != -1) {
-        recipeList?.removeAt(recipesListIndex!);
-        recipeList?.insert(recipesListIndex!, updatedRecipe);
-      }
-
-      var freshRecipesListIndex =
-      freshRecipesList?.indexWhere((recipe) => recipe.id == recipeId);
-
-      if (freshRecipesListIndex != -1) {
-        freshRecipesList?.removeAt(freshRecipesListIndex!);
-        freshRecipesList?.insert(freshRecipesListIndex!, updatedRecipe);
-      }
-
-      var recIndex = recommendedRecipesList
-          ?.indexWhere((recipe) => recipe.id == recipeId);
-
-      if (recIndex != -1) {
-        recommendedRecipesList?.removeAt(recIndex!);
-        recommendedRecipesList?.insert(
-            recIndex!, updatedRecipe);
-      }
-*/
       notifyListeners();
+
+      
     } catch (e) {
       print('$e>>>>>error in update recipe');
     }
   }
 
-  Future<void> addRecipeToFavourite(String recipeId, bool isAdd) async {
+  Future<void> addRecipeToFavourite(String feildName, String recipeId, bool isAdd) async {
     try {
       OverlayLoadingProgress.start();
       if (isAdd) {
@@ -176,19 +158,19 @@ class RecipeFireProvider extends ChangeNotifier {
             .collection('recipes')
             .doc(recipeId)
             .update({
-          "favourite_users_ids":
+          feildName:
               FieldValue.arrayUnion([FirebaseAuth.instance.currentUser?.uid])
         });
-        print("added to favourit");
+        print("added to $feildName");
       } else {
         await FirebaseFirestore.instance
             .collection('recipes')
             .doc(recipeId)
             .update({
-          "favourite_users_ids":
+          feildName:
               FieldValue.arrayRemove([FirebaseAuth.instance.currentUser?.uid])
         });
-        print("removed from favourit");
+        print("removed from $feildName");
       }
       await updateRecipe(recipeId);
       OverlayLoadingProgress.stop();

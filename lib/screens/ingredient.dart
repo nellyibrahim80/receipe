@@ -30,6 +30,17 @@ class _IngredientPageState extends State<IngredientPage> {
           builder: (context, ingProvValue, _) {
             return Column(
               children: [
+                Row
+                (mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                  ...List.generate(6, (index) =>  Image.asset(
+                              "assets/images/${index}.jpg",
+                              width:
+                                  50,
+                            ),)
+                 
+                ],),
+
                 ingProvValue.ingredientList == null
                     ? const CircularProgressIndicator()
                     : (ingProvValue.ingredientList?.isEmpty ?? false)
@@ -56,15 +67,15 @@ class _IngredientPageState extends State<IngredientPage> {
                                           ingProvValue.addIngredientToUser(
                                               inglist!.id!, value ?? false);
                                         },
-                                      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap, // Shrinks the tap target area to the checkbox size
+                                      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap, 
   shape: RoundedRectangleBorder(
     side: BorderSide(
-      color: Colors.grey, // Change border color for both active and inactive checkboxes
+      color: Colors.grey, 
     ),
-    borderRadius: BorderRadius.circular(4), // Adjust border radius as needed
+    borderRadius: BorderRadius.circular(4), 
   ),
 
-                                        checkColor: Color(ConstColors.textInput), // Change check mark color to grey
+                                        checkColor: Color(ConstColors.titleColors), 
                                         activeColor: Color(ConstColors.bgInput),
                                         
                                       ),
