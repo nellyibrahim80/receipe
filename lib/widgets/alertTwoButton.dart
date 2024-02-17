@@ -6,9 +6,9 @@ import 'package:receipe/providers/recipe_fire_provider.dart';
 
 
 class confirm extends StatelessWidget {
-  var Taskindex;
+  var recipe;
 
-  confirm({this.Taskindex, super.key});
+  confirm({this.recipe, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +24,7 @@ class confirm extends StatelessWidget {
 
             ),
             Text(
-              " Delete Task",
+              " Delete Receipe",
               style: TextStyle(fontWeight: FontWeight.bold),
             )
           ],
@@ -35,7 +35,7 @@ class confirm extends StatelessWidget {
           TextButton(
             child: const Text("Yes",
                 style: TextStyle(
-                    color: Colors.cyan,
+                    color: Colors.grey,
                     fontWeight: FontWeight.bold,
                     fontSize: 20)),
             onPressed: () {
@@ -43,7 +43,7 @@ class confirm extends StatelessWidget {
                                       listen: false)
                                   .addRecipeToFavourite(
                                       "recently_viewd_users_ids",
-                                      viewModel.displayRecipes[Taskindex].id!,
+                                      viewModel.displayRecipes[recipe].id!,
                                       false);
               Navigator.of(context).pop();
             },
@@ -51,7 +51,7 @@ class confirm extends StatelessWidget {
           TextButton(
             child: const Text("No",
                 style: TextStyle(
-                    color: Colors.cyan,
+                    color: Colors.grey,
                     fontWeight: FontWeight.bold,
                     fontSize: 20)),
             onPressed: () {
